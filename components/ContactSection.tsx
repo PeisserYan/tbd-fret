@@ -35,7 +35,6 @@ export default function ContactSection() {
             variants={fadeInUp}
             className="text-white"
           >
-            <img src="/logo-tbd.png" alt="TBD" style={{ height: "60px", width: "auto", marginBottom: "24px" }} />
             <div className="mb-8">
               <h3
                 className="text-2xl mb-2"
