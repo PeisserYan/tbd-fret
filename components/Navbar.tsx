@@ -56,16 +56,10 @@ export default function Navbar() {
               <img
                 src="/logo-tbd.png"
                 alt="TBD Fret logo"
-                width={40}
-                height={40}
-                className="object-contain w-10 h-10"
+                width={56}
+                height={56}
+                className="object-contain w-14 h-14"
               />
-              <span
-                className="text-white font-semibold text-lg tracking-wide hidden sm:block"
-                style={{ fontFamily: "var(--font-dm-sans)" }}
-              >
-                TBD Fret
-              </span>
             </button>
 
             {/* Desktop nav */}

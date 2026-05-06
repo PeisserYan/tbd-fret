@@ -76,12 +76,12 @@ function StatCard({
   );
 }
 
-// TODO: mettre à jour avec données 2025 fournies par Daniel
 const stats = [
   {
-    value: "X XXX XXX €",
+    numericValue: 7850000,
+    suffix: " €",
     label: "CA annuel",
-    isPlaceholder: true,
+    isPlaceholder: false,
   },
   {
     numericValue: 36,
@@ -90,20 +90,22 @@ const stats = [
     isPlaceholder: false,
   },
   {
-    value: "X XXX XXX km",
+    numericValue: 3850000,
+    suffix: " km",
     label: "Km parcourus / an",
-    isPlaceholder: true,
-  },
-  {
-    numericValue: 4300,
-    suffix: "",
-    label: "Passages aux tunnels transalpins",
     isPlaceholder: false,
   },
   {
-    value: "XX",
+    numericValue: 5025,
+    suffix: "",
+    label: "Passages annuels au tunnel du Fréjus",
+    isPlaceholder: false,
+  },
+  {
+    numericValue: 48,
+    suffix: "",
     label: "Collaborateurs",
-    isPlaceholder: true,
+    isPlaceholder: false,
   },
 ];
 
@@ -162,7 +164,6 @@ export default function ChiffresSection() {
           {stats.map((stat, i) => (
             <StatCard
               key={i}
-              value={stat.value}
               numericValue={stat.numericValue}
               suffix={stat.suffix}
               label={stat.label}

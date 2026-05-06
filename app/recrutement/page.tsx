@@ -33,18 +33,10 @@ const postes = [
       "Départs à la semaine, France-Italie",
       "Domicile 50 km max autour de Chambéry",
       "Permis CE + FIMO/FCO requis",
+      "ADR souhaité",
     ],
     contact: "06 07 32 48 61",
-  },
-  {
-    title: "Mécanicien PL/SPL",
-    tag: "Sédentaire",
-    details: [
-      "Maintenance et entretien : 36 tracteurs Volvo FH 500 + 40 semi-remorques Krone",
-      "Poste sédentaire à Voglans",
-      "Expérience PL/SPL appréciée",
-    ],
-    contact: "06 07 32 48 61",
+    leboncoin: true,
   },
 ];
 
@@ -259,91 +251,102 @@ export default function RecrutementPage() {
               </h2>
             </motion.div>
             <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 gap-8"
+              className="grid grid-cols-1 gap-8 max-w-2xl mx-auto"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
               variants={staggerContainer}
             >
               {postes.map((poste, i) => (
-                <motion.div
-                  key={i}
-                  variants={fadeInUp}
-                  className="rounded-lg p-8 border"
-                  style={{
-                    borderColor: "var(--color-border)",
-                    backgroundColor: "var(--color-off-white)",
-                  }}
-                >
-                  <div className="flex items-start justify-between gap-4 mb-6">
-                    <h3
-                      className="text-2xl"
-                      style={{
-                        fontFamily: "var(--font-bebas-neue)",
-                        letterSpacing: "0.02em",
-                        color: "var(--color-text-dark)",
-                      }}
-                    >
-                      {poste.title}
-                    </h3>
-                    <span
-                      className="shrink-0 text-xs font-semibold px-3 py-1 rounded-full"
-                      style={{
-                        backgroundColor: "rgba(0,191,255,0.12)",
-                        color: "var(--color-primary)",
-                      }}
-                    >
-                      {poste.tag}
-                    </span>
-                  </div>
-                  <ul className="flex flex-col gap-2 mb-6">
-                    {poste.details.map((d, j) => (
-                      <li key={j} className="flex items-start gap-3">
-                        <svg
-                          className="shrink-0 mt-0.5"
-                          width="14"
-                          height="14"
-                          viewBox="0 0 14 14"
-                          fill="none"
-                          aria-hidden="true"
-                        >
-                          <circle cx="7" cy="7" r="7" fill="#1B4F8A" opacity="0.15" />
-                          <path
-                            d="M4.5 7L6.5 9L9.5 5"
-                            stroke="#1B4F8A"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                        <span
-                          className="text-sm"
-                          style={{ color: "var(--color-text-muted)" }}
-                        >
-                          {d}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                  <a
-                    href={`tel:${poste.contact.replace(/\s/g, "")}`}
-                    className="inline-flex items-center gap-2 text-sm font-semibold"
-                    style={{ color: "var(--color-primary)" }}
+                <motion.div key={i} variants={fadeInUp}>
+                  <div
+                    className="rounded-lg p-8 border"
+                    style={{
+                      borderColor: "var(--color-border)",
+                      backgroundColor: "var(--color-off-white)",
+                    }}
                   >
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      aria-hidden="true"
+                    <div className="flex items-start justify-between gap-4 mb-6">
+                      <h3
+                        className="text-2xl"
+                        style={{
+                          fontFamily: "var(--font-bebas-neue)",
+                          letterSpacing: "0.02em",
+                          color: "var(--color-text-dark)",
+                        }}
+                      >
+                        {poste.title}
+                      </h3>
+                      <span
+                        className="shrink-0 text-xs font-semibold px-3 py-1 rounded-full"
+                        style={{
+                          backgroundColor: "rgba(0,191,255,0.12)",
+                          color: "var(--color-primary)",
+                        }}
+                      >
+                        {poste.tag}
+                      </span>
+                    </div>
+                    <ul className="flex flex-col gap-2 mb-6">
+                      {poste.details.map((d, j) => (
+                        <li key={j} className="flex items-start gap-3">
+                          <svg
+                            className="shrink-0 mt-0.5"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 14 14"
+                            fill="none"
+                            aria-hidden="true"
+                          >
+                            <circle cx="7" cy="7" r="7" fill="#1B4F8A" opacity="0.15" />
+                            <path
+                              d="M4.5 7L6.5 9L9.5 5"
+                              stroke="#1B4F8A"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                          <span
+                            className="text-sm"
+                            style={{ color: "var(--color-text-muted)" }}
+                          >
+                            {d}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    <a
+                      href={`tel:${poste.contact.replace(/\s/g, "")}`}
+                      className="inline-flex items-center gap-2 text-sm font-semibold"
+                      style={{ color: "var(--color-primary)" }}
                     >
-                      <path
-                        d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                    {poste.contact}
-                  </a>
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                      {poste.contact}
+                    </a>
+                  </div>
+                  {poste.leboncoin && (
+                    <p
+                      className="mt-3 text-sm text-center"
+                      style={{ color: "var(--color-text-muted)" }}
+                    >
+                      Retrouvez nos annonces sur{" "}
+                      <span className="font-semibold" style={{ color: "var(--color-primary)" }}>
+                        Le Bon Coin
+                      </span>
+                    </p>
+                  )}
                 </motion.div>
               ))}
             </motion.div>
@@ -468,7 +471,6 @@ export default function RecrutementPage() {
                 >
                   <option value="">Sélectionner un poste...</option>
                   <option>Chauffeur SPL grand routier</option>
-                  <option>Mécanicien PL/SPL</option>
                   <option>Autre / Candidature spontanée</option>
                 </select>
                 {errors.poste && (
