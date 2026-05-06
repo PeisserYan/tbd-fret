@@ -26,14 +26,14 @@ export default function ContactSection() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
           {/* Infos contact */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
             variants={fadeInUp}
-            className="text-white"
+            className="text-white flex flex-col justify-between"
           >
             <div className="mb-8">
               <h3
@@ -125,7 +125,7 @@ export default function ContactSection() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
             variants={fadeInUp}
-            className="w-full h-72 lg:h-96 rounded-lg overflow-hidden relative"
+            className="w-full min-h-72 rounded-lg overflow-hidden relative"
           >
             <iframe
               src="https://maps.google.com/maps?q=Transports+Bogeat+Daniel,+241+rue+des+Bouvards,+73420+Voglans&z=15&output=embed"
