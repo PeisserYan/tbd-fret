@@ -68,7 +68,6 @@ const marchandises = [
 ];
 
 const franceVilles = [
-  "Région parisienne",
   "Orléans",
   "Paris",
   "Reims",
@@ -224,6 +223,7 @@ export default function PrestationsSection() {
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">🇫🇷</span>
                 <span className="text-white font-semibold">France</span>
+                <span className="text-white/40 text-sm">— Région parisienne</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {franceVilles.map((v) => (
@@ -237,11 +237,11 @@ export default function PrestationsSection() {
               </div>
             </div>
             <div>
-              <div className="flex items-center gap-3 mb-1">
+              <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">🇮🇹</span>
                 <span className="text-white font-semibold">Italie</span>
+                <span className="text-white/40 text-sm">— Centre et Nord</span>
               </div>
-              <p className="text-white/40 text-xs mb-4">Centre et Nord de l&apos;Italie</p>
               <div className="flex flex-wrap gap-2">
                 {italieVilles.map((v) => (
                   <span
