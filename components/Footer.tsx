@@ -20,20 +20,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Logo + description */}
           <div>
-            <Link href="/" className="inline-flex items-center gap-3 mb-4">
-              <img
-                src="/logo-tbd.png"
-                alt="TBD Fret logo"
-                width={40}
-                height={40}
-                className="object-contain w-10 h-10 brightness-0 invert"
-              />
-              <span
-                className="text-white font-semibold text-lg tracking-wide"
-                style={{ fontFamily: "var(--font-dm-sans)" }}
-              >
-                TBD Fret
-              </span>
+            <Link href="/" className="inline-block mb-4">
+              <img src="/logo-tbd.png" alt="TBD Logo" style={{ height: "48px", width: "auto" }} />
             </Link>
             <p className="text-white/40 text-sm leading-relaxed max-w-xs">
               Spécialiste du transport routier de fret France-Italie depuis 1980.
@@ -93,7 +81,7 @@ export default function Footer() {
           style={{ borderColor: "rgba(255,255,255,0.08)" }}
         >
           <p className="text-white/30 text-xs">
-            © 2025 TBD – Transports Bogeat Daniel. Tous droits réservés.
+            © 2026 TBD – Transports Bogeat Daniel. Tous droits réservés.
           </p>
           <p className="text-white/20 text-xs">
             Site réalisé pour un usage professionnel B2B
