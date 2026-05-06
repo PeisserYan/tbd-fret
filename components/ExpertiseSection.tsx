@@ -70,9 +70,11 @@ export default function ExpertiseSection() {
             <motion.div
               key={i}
               variants={fadeInUp}
-              whileHover={{ y: -4, boxShadow: "0 20px 40px rgba(27,79,138,0.15)" }}
-              className="bg-white rounded-lg p-8 border transition-all duration-300 cursor-default"
-              style={{ borderColor: "var(--color-border)" }}
+              className="bg-white rounded-lg p-8 border cursor-default hover:-translate-y-1 hover:shadow-xl"
+              style={{
+                borderColor: "var(--color-border)",
+                transition: "box-shadow 0.15s ease, transform 0.15s ease",
+              }}
             >
               <div
                 className="mb-5"

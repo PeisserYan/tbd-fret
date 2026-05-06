@@ -113,12 +113,15 @@ export default function HeroSection() {
             >
               Demander un devis →
             </Link>
-            <Link
-              href="#expertise"
+            <button
+              onClick={() => {
+                const el = document.getElementById("expertise");
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+              }}
               className="inline-flex items-center justify-center gap-2 px-8 py-4 font-semibold text-white rounded-sm text-base border border-white/30 hover:border-white/60 transition-all duration-200"
             >
               Découvrir TBD ↓
-            </Link>
+            </button>
           </motion.div>
         </div>
       </div>
