@@ -11,7 +11,7 @@ const horaires = [
   { jour: "Lundi", heures: "08:00–12:30 / 14:00–18:00" },
   { jour: "Mardi", heures: "08:00–12:30 / 14:00–18:00" },
   { jour: "Mercredi", heures: "08:00–12:30 / 14:00–18:00" },
-  { jour: "Jeudi", heures: "08:00–12:30 / 14:00–18:00*" },
+  { jour: "Jeudi", heures: "08:00–12:30 / 14:00–18:00" },
   { jour: "Vendredi", heures: "08:00–12:30 / 14:00–18:00" },
   { jour: "Samedi", heures: "06:30–15:00" },
   { jour: "Dimanche", heures: "Fermé" },
@@ -59,7 +59,7 @@ export default function Footer() {
           </div>
 
           {/* Horaires */}
-          <div>
+          <div className="pr-4 lg:pr-8">
             <p className="text-white/50 text-xs font-semibold uppercase tracking-widest mb-4">
               Horaires d&apos;ouverture
             </p>
@@ -67,11 +67,10 @@ export default function Footer() {
               {horaires.map(({ jour, heures }) => (
                 <li key={jour} className="flex justify-between gap-2 text-xs">
                   <span className="text-white/50 shrink-0">{jour}</span>
-                  <span className="text-white/35 text-right">{heures}</span>
+                  <span className="text-white/60 text-right">{heures}</span>
                 </li>
               ))}
             </ul>
-            <p className="mt-2 text-white/25 text-xs">* Les horaires peuvent être différents</p>
           </div>
 
           {/* Legal */}
