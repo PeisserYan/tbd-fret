@@ -31,7 +31,7 @@ export default function Footer() {
           {/* Logo + description */}
           <div>
             <Link href="/" className="inline-block mb-4">
-              <img src="/logo-tbd.png" alt="TBD Logo" style={{ height: "150px", width: "auto" }} />
+              <img src="/logo-tbd.png" alt="TBD Logo" style={{ height: "110px", width: "auto" }} />
             </Link>
             <p className="text-white/60 text-sm leading-relaxed max-w-xs">
               Spécialiste du transport routier de fret France-Italie depuis 1980.
