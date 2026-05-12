@@ -31,6 +31,7 @@ function StatCard({
   label,
   active,
   isPlaceholder,
+  compact = false,
 }: {
   value?: string;
   numericValue?: number;
@@ -38,8 +39,46 @@ function StatCard({
   label: string;
   active: boolean;
   isPlaceholder?: boolean;
+  compact?: boolean;
 }) {
   const count = useCounter(numericValue ?? 0, 1800, active && !isPlaceholder);
+
+  if (compact) {
+    return (
+      <motion.div
+        variants={fadeInUp}
+        className="flex flex-col items-center text-center bg-white rounded-lg border px-6 py-4"
+        style={{ borderColor: "var(--color-border)" }}
+      >
+        <div
+          className="text-4xl font-bold mb-1"
+          style={{
+            fontFamily: "var(--font-bebas-neue)",
+            letterSpacing: "0.02em",
+            color: "var(--color-primary)",
+          }}
+        >
+          {isPlaceholder ? (
+            <span className="opacity-40">{value}</span>
+          ) : (
+            <>
+              {count.toLocaleString("fr-FR")}
+              {suffix}
+            </>
+          )}
+        </div>
+        <div
+          className="text-xs font-semibold uppercase tracking-widest"
+          style={{ color: "var(--color-text-muted)" }}
+        >
+          {label}
+        </div>
+        {isPlaceholder && (
+          <div className="mt-1 text-xs text-orange-400 opacity-70">À confirmer</div>
+        )}
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div
@@ -116,11 +155,11 @@ export default function ChiffresSection() {
   return (
     <section
       id="chiffres"
-      className="py-24 lg:py-32 bg-white"
+      className="py-12 md:py-24 lg:py-32 bg-white"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-8 md:mb-16"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
@@ -153,8 +192,30 @@ export default function ChiffresSection() {
           </h2>
         </motion.div>
 
+        {/* Mobile : cartes empilées */}
         <motion.div
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 divide-x divide-y md:divide-y-0"
+          className="flex flex-col gap-3 md:hidden"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={staggerContainer}
+        >
+          {stats.map((stat, i) => (
+            <StatCard
+              key={i}
+              numericValue={stat.numericValue}
+              suffix={stat.suffix}
+              label={stat.label}
+              active={inView}
+              isPlaceholder={stat.isPlaceholder}
+              compact
+            />
+          ))}
+        </motion.div>
+
+        {/* Desktop : grille avec séparateurs */}
+        <motion.div
+          className="hidden md:grid md:grid-cols-3 lg:grid-cols-5 divide-x divide-y md:divide-y-0"
           style={{ borderColor: "var(--color-border)" }}
           initial="hidden"
           whileInView="visible"
