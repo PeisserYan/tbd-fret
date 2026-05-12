@@ -33,7 +33,7 @@ export default function Footer() {
             <Link href="/" className="inline-block mb-4">
               <img src="/logo-tbd.png" alt="TBD Logo" style={{ height: "48px", width: "auto" }} />
             </Link>
-            <p className="text-white/40 text-sm leading-relaxed max-w-xs">
+            <p className="text-white/60 text-sm leading-relaxed max-w-xs">
               Spécialiste du transport routier de fret France-Italie depuis 1980.
               Basé à Voglans, Savoie.
             </p>
@@ -41,7 +41,7 @@ export default function Footer() {
 
           {/* Quick links */}
           <div>
-            <p className="text-white/50 text-xs font-semibold uppercase tracking-widest mb-4">
+            <p className="text-white/70 text-xs font-semibold uppercase tracking-widest mb-4">
               Navigation
             </p>
             <ul className="flex flex-col gap-2">
@@ -49,7 +49,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-white/50 hover:text-white text-sm transition-colors duration-200"
+                    className="text-white/70 hover:text-white text-sm transition-colors duration-200"
                   >
                     {link.label}
                   </Link>
@@ -60,14 +60,14 @@ export default function Footer() {
 
           {/* Horaires */}
           <div className="pr-4 lg:pr-8">
-            <p className="text-white/50 text-xs font-semibold uppercase tracking-widest mb-4">
+            <p className="text-white/70 text-xs font-semibold uppercase tracking-widest mb-4">
               Horaires d&apos;ouverture
             </p>
             <ul className="flex flex-col gap-1.5">
               {horaires.map(({ jour, heures }) => (
                 <li key={jour} className="flex justify-between gap-2 text-xs">
-                  <span className="text-white/50 shrink-0">{jour}</span>
-                  <span className="text-white/60 text-right">{heures}</span>
+                  <span className="text-white/70 shrink-0">{jour}</span>
+                  <span className="text-white/75 text-right">{heures}</span>
                 </li>
               ))}
             </ul>
@@ -75,12 +75,12 @@ export default function Footer() {
 
           {/* Legal */}
           <div>
-            <p className="text-white/50 text-xs font-semibold uppercase tracking-widest mb-4">
+            <p className="text-white/70 text-xs font-semibold uppercase tracking-widest mb-4">
               Informations légales
             </p>
             <ul className="flex flex-col gap-2">
               <li>
-                <span className="text-white/40 text-sm">
+                <span className="text-white/60 text-sm">
                   SIRET : 320 029 887 00041
                 </span>
               </li>
@@ -89,7 +89,7 @@ export default function Footer() {
                   href="https://www.google.com/maps/place/TBD+Transports+Bogeat+Daniel/@45.6236458,5.8929696,16z"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white/40 hover:text-white/70 text-sm transition-colors duration-200"
+                  className="text-white/60 hover:text-white/85 text-sm transition-colors duration-200"
                 >
                   241 rue des Bouvards, 73420 Voglans
                 </a>
@@ -97,7 +97,7 @@ export default function Footer() {
               <li>
                 <a
                   href="tel:+33479544990"
-                  className="text-white/50 hover:text-white text-sm transition-colors"
+                  className="text-white/70 hover:text-white text-sm transition-colors"
                 >
                   04 79 54 49 90
                 </a>
@@ -105,7 +105,7 @@ export default function Footer() {
               <li>
                 <a
                   href="mailto:tbd@tbd-fret.com"
-                  className="text-white/50 hover:text-white text-sm transition-colors"
+                  className="text-white/70 hover:text-white text-sm transition-colors"
                 >
                   tbd@tbd-fret.com
                 </a>
@@ -118,20 +118,20 @@ export default function Footer() {
           className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4"
           style={{ borderColor: "rgba(255,255,255,0.08)" }}
         >
-          <p className="text-white/30 text-xs">
+          <p className="text-white/50 text-xs">
             © 2026 TBD – Transports Bogeat Daniel. Tous droits réservés.
           </p>
           <div className="flex items-center gap-4">
             <Link
               href="/mentions-legales"
-              className="text-white/30 hover:text-white/60 text-xs transition-colors duration-200"
+              className="text-white/50 hover:text-white/75 text-xs transition-colors duration-200"
             >
               Mentions légales
             </Link>
-            <span className="text-white/20 text-xs">·</span>
+            <span className="text-white/40 text-xs">·</span>
             <Link
               href="/politique-de-confidentialite"
-              className="text-white/30 hover:text-white/60 text-xs transition-colors duration-200"
+              className="text-white/50 hover:text-white/75 text-xs transition-colors duration-200"
             >
               Politique de confidentialité
             </Link>
