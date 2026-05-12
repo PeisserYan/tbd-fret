@@ -70,7 +70,7 @@ export default function Navbar() {
                 alt="TBD Fret logo"
                 width={80}
                 height={80}
-                className="object-contain w-[66px] h-[66px]"
+                className="object-contain w-[80px] h-[80px]"
               />
             </button>
 
