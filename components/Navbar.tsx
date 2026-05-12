@@ -68,9 +68,9 @@ export default function Navbar() {
               <img
                 src="/logo-tbd.png"
                 alt="TBD Fret logo"
-                width={56}
-                height={56}
-                className="object-contain w-14 h-14"
+                width={66}
+                height={66}
+                className="object-contain w-[66px] h-[66px]"
               />
             </button>
 
