@@ -59,7 +59,7 @@ export default function Footer() {
           </div>
 
           {/* Horaires */}
-          <div className="pr-4 lg:pr-8">
+          <div className="pr-4 lg:pr-16">
             <p className="text-white/70 text-xs font-semibold uppercase tracking-widest mb-4">
               Horaires d&apos;ouverture
             </p>
