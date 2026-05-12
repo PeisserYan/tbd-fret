@@ -64,10 +64,6 @@ export default function HeroSection() {
             {...heroItem(0.2)}
             className="inline-flex items-center gap-2 mb-6"
           >
-            <div
-              className="w-8 h-0.5 shrink-0"
-              style={{ backgroundColor: "var(--color-accent)" }}
-            />
             <span
               className="text-sm font-semibold uppercase tracking-widest"
               style={{ color: "var(--color-accent)" }}

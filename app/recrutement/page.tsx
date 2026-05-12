@@ -342,9 +342,15 @@ export default function RecrutementPage() {
                       style={{ color: "var(--color-text-muted)" }}
                     >
                       Retrouvez nos annonces sur{" "}
-                      <span className="font-semibold" style={{ color: "var(--color-primary)" }}>
+                      <a
+                        href="https://www.leboncoin.fr"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold hover:underline"
+                        style={{ color: "var(--color-primary)" }}
+                      >
                         Le Bon Coin
-                      </span>
+                      </a>
                     </p>
                   )}
                 </motion.div>

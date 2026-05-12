@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { Package, Scale, Box, Ruler } from "lucide-react";
 import { fadeInUp, staggerContainer } from "@/lib/variants";
 
 function useCounter(target: number, duration = 1500, active: boolean) {
@@ -26,12 +25,10 @@ function useCounter(target: number, duration = 1500, active: boolean) {
 }
 
 function CapaciteCard({
-  icon,
   value,
   label,
   active,
 }: {
-  icon: React.ReactNode;
   value: string;
   label: string;
   active: boolean;
@@ -42,7 +39,6 @@ function CapaciteCard({
       className="flex flex-col items-center text-center p-8 rounded-lg border border-white/10"
       style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
     >
-      <div className="mb-4 text-white/70">{icon}</div>
       <div
         className="text-3xl lg:text-4xl font-bold mb-2"
         style={{
@@ -147,25 +143,21 @@ export default function PrestationsSection() {
           variants={staggerContainer}
         >
           <CapaciteCard
-            icon={<Package className="w-8 h-8" />}
             value="1 → 33 palettes"
             label="Palettes Europe"
             active={inView}
           />
           <CapaciteCard
-            icon={<Scale className="w-8 h-8" />}
             value="100 kg → 28 t"
             label="Poids transporté"
             active={inView}
           />
           <CapaciteCard
-            icon={<Box className="w-8 h-8" />}
             value="1 → 90 m³"
             label="Volume"
             active={inView}
           />
           <CapaciteCard
-            icon={<Ruler className="w-8 h-8" />}
             value="1 → 13,60 m"
             label="Longueur"
             active={inView}
