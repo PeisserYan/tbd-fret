@@ -94,7 +94,7 @@ export default function HeroSection() {
           >
             Transporteur routier de fret basé en Savoie.
             <br />
-            36 ensembles Volvo. 4 300 passages annuels aux tunnels transalpins.
+            36 ensembles Volvo. Plus de 5 000 passages aux tunnels transalpins.
           </motion.p>
 
           {/* CTAs */}
