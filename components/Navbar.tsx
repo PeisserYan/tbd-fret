@@ -74,6 +74,13 @@ export default function Navbar() {
               />
             </button>
 
+            <Link
+              href="/"
+              className="hidden lg:block text-white/80 hover:text-white text-sm font-medium transition-colors duration-200"
+            >
+              Transport Bogeat Daniel
+            </Link>
+
             {/* Desktop nav */}
             <div className="hidden lg:flex items-center gap-6">
               {navLinks.map((link) => (
