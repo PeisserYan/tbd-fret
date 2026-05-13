@@ -60,26 +60,27 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
-            {/* Logo */}
-            <button
-              onClick={handleLogoClick}
-              className="flex items-center gap-3 shrink-0 cursor-pointer"
-            >
-              <img
-                src="/logo-tbd.png"
-                alt="TBD Fret logo"
-                width={150}
-                height={150}
-                className="object-contain w-[150px] h-[150px]"
-              />
-            </button>
-
-            <Link
-              href="/"
-              className="hidden lg:block text-white/80 hover:text-white text-sm font-medium transition-colors duration-200"
-            >
-              Transport Bogeat Daniel
-            </Link>
+            {/* Logo + brand name */}
+            <div className="flex items-center shrink-0">
+              <button
+                onClick={handleLogoClick}
+                className="flex items-center cursor-pointer"
+              >
+                <img
+                  src="/logo-tbd.png"
+                  alt="TBD Fret logo"
+                  width={150}
+                  height={150}
+                  className="object-contain w-[150px] h-[150px]"
+                />
+              </button>
+              <button
+                onClick={handleLogoClick}
+                className="hidden lg:block text-white/80 hover:text-white text-sm font-medium transition-colors duration-200 cursor-pointer"
+              >
+                Transport Bogeat Daniel
+              </button>
+            </div>
 
             {/* Desktop nav */}
             <div className="hidden lg:flex items-center gap-6">
