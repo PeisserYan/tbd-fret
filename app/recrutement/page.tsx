@@ -7,24 +7,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { fadeInUp, staggerContainer } from "@/lib/variants";
 
-const arguments_ = [
-  {
-    icon: "🚛",
-    title: "Flotte récente",
-    text: "36 Volvo FH 500, renouvelés en 2022. Vous conduisez du matériel fiable, entretenu sur place à Voglans.",
-  },
-  {
-    icon: "🗺",
-    title: "Trajets réguliers",
-    text: "France-Italie en aller-retour. Des routes connues, des partenaires stables, des habitudes qui comptent.",
-  },
-  {
-    icon: "🤝",
-    title: "Entreprise familiale",
-    text: "Fondée en 1980. Ici on se connaît, on se respecte. Pas de turn-over tous les six mois.",
-  },
-];
-
 const postes = [
   {
     title: "Chauffeur SPL grand routier",
@@ -164,68 +146,8 @@ export default function RecrutementPage() {
                 REJOIGNEZ TBD
               </h1>
               <p className="text-white/70 text-lg max-w-lg mx-auto">
-                Une entreprise familiale de 40 ans. Une flotte neuve. Un travail sérieux.
+                Plus de 40 ans d'expérience. Une flotte neuve. Un travail sérieux.
               </p>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Pourquoi TBD */}
-        <section
-          className="py-24"
-          style={{ backgroundColor: "var(--color-off-white)" }}
-        >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              className="text-center mb-16"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={fadeInUp}
-            >
-              <h2
-                className="text-4xl lg:text-5xl"
-                style={{
-                  fontFamily: "var(--font-bebas-neue)",
-                  color: "var(--color-text-dark)",
-                }}
-              >
-                POURQUOI TBD ?
-              </h2>
-            </motion.div>
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-3 gap-8"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={staggerContainer}
-            >
-              {arguments_.map((arg, i) => (
-                <motion.div
-                  key={i}
-                  variants={fadeInUp}
-                  className="bg-white p-8 rounded-lg border"
-                  style={{ borderColor: "var(--color-border)" }}
-                >
-                  <div className="text-4xl mb-4">{arg.icon}</div>
-                  <h3
-                    className="text-xl mb-3"
-                    style={{
-                      fontFamily: "var(--font-bebas-neue)",
-                      letterSpacing: "0.02em",
-                      color: "var(--color-text-dark)",
-                    }}
-                  >
-                    {arg.title}
-                  </h3>
-                  <p
-                    className="text-sm leading-relaxed"
-                    style={{ color: "var(--color-text-muted)" }}
-                  >
-                    {arg.text}
-                  </p>
-                </motion.div>
-              ))}
             </motion.div>
           </div>
         </section>
