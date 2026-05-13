@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { AnimatePresence, motion, useInView } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/variants";
 
 function useCounter(target: number, duration = 1500, active: boolean) {
@@ -27,17 +27,26 @@ function useCounter(target: number, duration = 1500, active: boolean) {
 function CapaciteCard({
   value,
   label,
+  tooltip,
   active,
 }: {
   value: string;
   label: string;
+  tooltip: string;
   active: boolean;
 }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const visible = isHovered || isOpen;
+
   return (
     <motion.div
       variants={fadeInUp}
-      className="flex flex-col items-center text-center p-8 rounded-lg border border-white/10"
+      className="relative flex flex-col items-center text-center p-8 rounded-lg border border-white/10 cursor-pointer overflow-hidden"
       style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => { setIsHovered(false); setIsOpen(false); }}
+      onClick={() => setIsOpen((prev) => !prev)}
     >
       <div
         className="text-3xl lg:text-4xl font-bold mb-2"
@@ -52,6 +61,22 @@ function CapaciteCard({
       <div className="text-white/60 text-sm font-medium uppercase tracking-wide">
         {label}
       </div>
+      <AnimatePresence>
+        {visible && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 flex items-center justify-center p-6 rounded-lg"
+            style={{ backgroundColor: "rgba(13, 46, 82, 0.95)" }}
+          >
+            <p className="text-white/90 text-sm leading-relaxed">
+              {tooltip}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
@@ -145,21 +170,25 @@ export default function PrestationsSection() {
           <CapaciteCard
             value="1 → 33 palettes"
             label="Palettes Europe"
+            tooltip="Que vous ayez une seule palette ou un camion complet, nous adaptons le transport à votre volume."
             active={inView}
           />
           <CapaciteCard
             value="100 kg → 28 t"
             label="Poids transporté"
+            tooltip="Nous prenons en charge tous les gabarits, d'un petit colis à la pleine charge d'un semi-remorque."
             active={inView}
           />
           <CapaciteCard
             value="1 → 90 m³"
             label="Volume"
+            tooltip="Du petit envoi au chargement complet, nous optimisons l'espace pour réduire vos coûts."
             active={inView}
           />
           <CapaciteCard
             value="1 → 13,60 m"
             label="Longueur"
+            tooltip="Nos véhicules acceptent les marchandises longues jusqu'à 13,60 mètres, y compris les pièces industrielles."
             active={inView}
           />
         </motion.div>
