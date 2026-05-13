@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
+import { BrevoClient } from "@getbrevo/brevo";
 
 const EMAIL_DESTINATION = process.env.EMAIL_DESTINATION ?? "tbd@tbd-fret.com";
 
@@ -49,13 +49,13 @@ export async function POST(req: NextRequest) {
       </div>
     `;
 
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    await resend.emails.send({
-      from: "TBD Fret <recrutement@tbd-fret.com>",
-      to: EMAIL_DESTINATION,
-      replyTo: email,
+    const brevo = new BrevoClient({ apiKey: process.env.BREVO_API_KEY ?? "" });
+    await brevo.transactionalEmails.sendTransacEmail({
+      sender: { email: "recrutement@tbd-fret.com", name: "TBD Fret" },
+      to: [{ email: EMAIL_DESTINATION }],
+      replyTo: { email },
       subject: `Candidature — ${poste} — ${nom}`,
-      html,
+      htmlContent: html,
     });
 
     // TODO: ajouter écriture Supabase ici (dans 2 mois)
