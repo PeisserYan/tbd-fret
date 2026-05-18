@@ -72,6 +72,7 @@ export default function Navbar() {
                   width={150}
                   height={150}
                   className="object-contain w-[150px] h-[150px]"
+                  style={{ filter: "brightness(0) invert(44%) sepia(100%) saturate(100) hue-rotate(156deg)" }}
                 />
               </button>
               <button

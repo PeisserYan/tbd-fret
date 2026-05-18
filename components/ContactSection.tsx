@@ -114,7 +114,10 @@ export default function ContactSection() {
                 Horaires d&apos;ouverture
               </p>
               <p className="text-white/80 text-sm">
-                Lundi – Vendredi&nbsp;: <strong className="text-white">7h00 – 18h00</strong>
+                Lundi – Vendredi&nbsp;: <strong className="text-white">8h00 – 18h00</strong>
+              </p>
+              <p className="text-white/80 text-sm mt-1">
+                Samedi&nbsp;: <strong className="text-white">6h30 – 15h00</strong>
               </p>
             </div>
           </motion.div>

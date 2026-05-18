@@ -176,7 +176,7 @@ export default function PrestationsSection() {
           <CapaciteCard
             value="100 kg → 28 t"
             label="Poids transporté"
-            tooltip="Nous prenons en charge tous les gabarits, d'un petit colis à la pleine charge d'un semi-remorque."
+            tooltip="Nous prenons en charge tous les gabarits, d'un petit colis à la pleine charge d'une semi-remorque."
             active={inView}
           />
           <CapaciteCard
