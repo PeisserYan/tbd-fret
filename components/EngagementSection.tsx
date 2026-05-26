@@ -6,7 +6,7 @@ import { fadeInUp, staggerContainer } from "@/lib/variants";
 const engagements = [
   "Flotte 100% Volvo I-Save 500 Euro 6 — camions à conduite prédictive",
   "Vitesse bridée à 82 km/h — réduction de 10% de la consommation",
-  "Pneumatiques 100% Michelin X Line Energy — recreusage + 2 rechapage et permutation systématique",
+  "Pneumatiques 100% Michelin X Line Energy — recreusage + 2 rechapages et permutation systématique",
   "Géolocalisation 100% Eliot — optimisation des itinéraires en temps réel",
   "Formation éco-conduite pour tous les chauffeurs",
 ];

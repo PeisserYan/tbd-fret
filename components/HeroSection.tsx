@@ -92,7 +92,7 @@ export default function HeroSection() {
             className="text-white/75 text-lg leading-relaxed mb-10 max-w-md"
             style={{ fontFamily: "var(--font-dm-sans)" }}
           >
-            Transporteur routier de fret basé en Savoie.
+            Transporteur routier de marchandises basé en Savoie.
             <br />
             36 ensembles Volvo. Plus de 5 000 passages aux tunnels transalpins.
           </motion.p>
