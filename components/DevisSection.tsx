@@ -207,14 +207,17 @@ export default function DevisSection() {
           </p>
         </motion.div>
 
-        <motion.form
-          onSubmit={handleSubmit}
-          className="bg-white rounded-lg p-8 shadow-sm border space-y-8"
+        <motion.div
+          className="bg-white rounded-lg shadow-sm border"
           style={{ borderColor: "var(--color-border)" }}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
           variants={fadeInUp}
+        >
+        <form
+          onSubmit={handleSubmit}
+          className="p-8 space-y-8"
           noValidate
         >
           {/* Bloc 1 — Votre entreprise */}
@@ -393,7 +396,8 @@ export default function DevisSection() {
               </p>
             )}
           </div>
-        </motion.form>
+        </form>
+        </motion.div>
       </div>
     </section>
   );
