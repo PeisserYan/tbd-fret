@@ -5,6 +5,7 @@ const quickLinks = [
   { label: "Prestations", href: "/#prestations" },
   { label: "Devis", href: "/#devis" },
   { label: "Recrutement", href: "/recrutement" },
+  { label: "Transport France-Italie", href: "/france-italie" },
 ];
 
 const horaires = [
