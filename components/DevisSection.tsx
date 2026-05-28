@@ -45,6 +45,55 @@ const inputFocusStyle = { "--tw-ring-color": "var(--color-primary)" } as React.C
 const labelClass = "block text-sm font-semibold mb-1.5";
 const labelStyle = { color: "var(--color-text-dark)" };
 
+type FieldProps = {
+  name: keyof FormData;
+  label: string;
+  type?: string;
+  placeholder?: string;
+  children?: React.ReactNode;
+  value?: string;
+  error?: string;
+  onChange?: (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => void;
+  isRequired?: boolean;
+};
+
+function Field({
+  name,
+  label,
+  type = "text",
+  placeholder,
+  children,
+  value = "",
+  error,
+  onChange,
+  isRequired,
+}: FieldProps) {
+  return (
+    <div>
+      <label htmlFor={name} className={labelClass} style={labelStyle}>
+        {label} {isRequired && <span className="text-red-500">*</span>}
+      </label>
+      {children ?? (
+        <input
+          id={name}
+          name={name}
+          type={type}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          className={inputClass}
+          style={{ ...inputStyle, ...inputFocusStyle }}
+        />
+      )}
+      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+    </div>
+  );
+}
+
 export default function DevisSection() {
   const [form, setForm] = useState<FormData>(initialForm);
   const [errors, setErrors] = useState<Partial<FormData>>({});
@@ -112,43 +161,6 @@ export default function DevisSection() {
     } catch {
       setStatus("error");
     }
-  }
-
-  function Field({
-    name,
-    label,
-    type = "text",
-    placeholder,
-    children,
-  }: {
-    name: keyof FormData;
-    label: string;
-    type?: string;
-    placeholder?: string;
-    children?: React.ReactNode;
-  }) {
-    return (
-      <div>
-        <label htmlFor={name} className={labelClass} style={labelStyle}>
-          {label} {required.includes(name) && <span className="text-red-500">*</span>}
-        </label>
-        {children ?? (
-          <input
-            id={name}
-            name={name}
-            type={type}
-            value={form[name]}
-            onChange={handleChange}
-            placeholder={placeholder}
-            className={inputClass}
-            style={{ ...inputStyle, ...inputFocusStyle }}
-          />
-        )}
-        {errors[name] && (
-          <p className="mt-1 text-xs text-red-500">{errors[name]}</p>
-        )}
-      </div>
-    );
   }
 
   return (
@@ -219,19 +231,27 @@ export default function DevisSection() {
               1. Votre entreprise
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <Field name="nom" label="Nom et prénom" placeholder="Jean Dupont" />
-              <Field name="entreprise" label="Entreprise" placeholder="Acme SAS" />
+              <Field name="nom" label="Nom et prénom" placeholder="Jean Dupont" value={form.nom} error={errors.nom} onChange={handleChange} isRequired />
+              <Field name="entreprise" label="Entreprise" placeholder="Acme SAS" value={form.entreprise} error={errors.entreprise} onChange={handleChange} isRequired />
               <Field
                 name="email"
                 label="Email professionnel"
                 type="email"
                 placeholder="jean.dupont@acme.fr"
+                value={form.email}
+                error={errors.email}
+                onChange={handleChange}
+                isRequired
               />
               <Field
                 name="telephone"
                 label="Téléphone"
                 type="tel"
                 placeholder="+33 6 12 34 56 78"
+                value={form.telephone}
+                error={errors.telephone}
+                onChange={handleChange}
+                isRequired
               />
             </div>
           </div>
@@ -250,7 +270,7 @@ export default function DevisSection() {
               2. Votre expédition
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <Field name="typeMarchandise" label="Type de marchandise">
+              <Field name="typeMarchandise" label="Type de marchandise" isRequired>
                 <select
                   id="typeMarchandise"
                   name="typeMarchandise"
@@ -270,8 +290,8 @@ export default function DevisSection() {
                   <p className="mt-1 text-xs text-red-500">{errors.typeMarchandise}</p>
                 )}
               </Field>
-              <Field name="poids" label="Poids estimé" placeholder="ex: 5 000 kg" />
-              <Field name="palettes" label="Nombre de palettes">
+              <Field name="poids" label="Poids estimé" placeholder="ex: 5 000 kg" value={form.poids} error={errors.poids} onChange={handleChange} isRequired />
+              <Field name="palettes" label="Nombre de palettes" isRequired>
                 <select
                   id="palettes"
                   name="palettes"
@@ -291,16 +311,24 @@ export default function DevisSection() {
                   <p className="mt-1 text-xs text-red-500">{errors.palettes}</p>
                 )}
               </Field>
-              <Field name="dateChargement" label="Date souhaitée" type="date" />
+              <Field name="dateChargement" label="Date souhaitée" type="date" value={form.dateChargement} error={errors.dateChargement} onChange={handleChange} isRequired />
               <Field
                 name="villeDepart"
                 label="Ville de départ"
                 placeholder="Lyon, Grenoble..."
+                value={form.villeDepart}
+                error={errors.villeDepart}
+                onChange={handleChange}
+                isRequired
               />
               <Field
                 name="villeArrivee"
                 label="Ville d'arrivée en Italie"
                 placeholder="Milano, Torino..."
+                value={form.villeArrivee}
+                error={errors.villeArrivee}
+                onChange={handleChange}
+                isRequired
               />
             </div>
           </div>
