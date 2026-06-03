@@ -83,9 +83,9 @@ export async function POST(req: NextRequest) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        sender: { email: "devis@tbd-fret.com", name: "TBD Fret" },
+        sender: { email: "yan@compagnondigital.fr", name: "TBD Fret" },
         to: [{ email: EMAIL_DESTINATION }],
-        replyTo: { email },
+        replyTo: { email: email },
         subject: `Demande de devis — ${entreprise} (${villeDepart} → ${villeArrivee})`,
         htmlContent: html,
       }),

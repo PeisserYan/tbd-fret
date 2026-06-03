@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
 
     const brevo = new BrevoClient({ apiKey: process.env.BREVO_API_KEY ?? "" });
     await brevo.transactionalEmails.sendTransacEmail({
-      sender: { email: "recrutement@tbd-fret.com", name: "TBD Fret" },
+      sender: { email: "yan@compagnondigital.fr", name: "TBD Fret" },
       to: [{ email: EMAIL_DESTINATION }],
       replyTo: { email },
       subject: `Candidature — ${poste} — ${nom}`,
