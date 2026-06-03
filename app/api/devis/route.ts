@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { BrevoClient } from "@getbrevo/brevo";
 
 const EMAIL_DESTINATION = process.env.EMAIL_DESTINATION ?? "tbd@tbd-fret.com";
 
@@ -77,14 +76,26 @@ export async function POST(req: NextRequest) {
       </div>
     `;
 
-    const brevo = new BrevoClient({ apiKey: process.env.BREVO_API_KEY ?? "" });
-    await brevo.transactionalEmails.sendTransacEmail({
-      sender: { email: "devis@tbd-fret.com", name: "TBD Fret" },
-      to: [{ email: EMAIL_DESTINATION }],
-      replyTo: { email },
-      subject: `Demande de devis — ${entreprise} (${villeDepart} → ${villeArrivee})`,
-      htmlContent: html,
+    const res = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        "api-key": process.env.BREVO_API_KEY ?? "",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        sender: { email: "devis@tbd-fret.com", name: "TBD Fret" },
+        to: [{ email: EMAIL_DESTINATION }],
+        replyTo: { email },
+        subject: `Demande de devis — ${entreprise} (${villeDepart} → ${villeArrivee})`,
+        htmlContent: html,
+      }),
     });
+
+    if (!res.ok) {
+      const detail = await res.text();
+      console.error("Erreur Brevo /devis:", res.status, detail);
+      return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+    }
 
     // TODO: ajouter écriture Supabase ici (dans 2 mois)
 
