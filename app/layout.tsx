@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, DM_Sans } from "next/font/google";
 import "./globals.css";
+import { LangProvider } from "@/lib/LangContext";
 
 const bebasNeue = Bebas_Neue({
   variable: "--font-bebas-neue",
@@ -37,7 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${bebasNeue.variable} ${dmSans.variable}`}>
-      <body className="min-h-full antialiased">{children}</body>
+      <body className="min-h-full antialiased"><LangProvider>{children}</LangProvider></body>
     </html>
   );
 }

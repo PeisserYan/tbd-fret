@@ -4,17 +4,20 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-
-const navLinks = [
-  { label: "L'entreprise", href: "/#expertise" },
-  { label: "Prestations", href: "/#prestations" },
-  { label: "En chiffres", href: "/#chiffres" },
-  { label: "Engagement", href: "/#engagement" },
-  { label: "Contact", href: "/#contact" },
-  { label: "Recrutement", href: "/recrutement" },
-];
+import { useLang } from "@/lib/LangContext";
+import { translations } from "@/lib/translations";
 
 export default function Navbar() {
+  const { lang, setLang } = useLang();
+  const t = translations[lang].nav;
+  const navLinks = [
+    { label: t.entreprise, href: "/#expertise" },
+    { label: t.prestations, href: "/#prestations" },
+    { label: t.chiffres, href: "/#chiffres" },
+    { label: t.engagement, href: "/#engagement" },
+    { label: t.contact, href: "/#contact" },
+    { label: t.recrutement, href: "/recrutement" },
+  ];
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -93,12 +96,18 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              <button
+                onClick={() => setLang(lang === "fr" ? "it" : "fr")}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm border border-white/30 text-white/80 hover:text-white hover:border-white/60 text-xs font-semibold uppercase tracking-widest transition-all duration-200"
+              >
+                {lang === "fr" ? "🇮🇹 IT" : "🇫🇷 FR"}
+              </button>
               <Link
                 href="/#devis"
                 className="ml-2 px-5 py-2 text-sm font-semibold text-white rounded-sm transition-all duration-200 hover:brightness-110 active:scale-95"
                 style={{ backgroundColor: "var(--color-accent)" }}
               >
-                Demander un devis
+                {t.devis}
               </Link>
             </div>
 
@@ -182,13 +191,20 @@ export default function Navbar() {
                     {link.label}
                   </Link>
                 ))}
+                <button
+                  onClick={() => setLang(lang === "fr" ? "it" : "fr")}
+                  className="flex items-center justify-center gap-2 px-5 py-3 text-center font-semibold text-white rounded-sm border border-white/30"
+                  style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
+                >
+                  {lang === "fr" ? "🇮🇹 Italiano" : "🇫🇷 Français"}
+                </button>
                 <Link
                   href="/#devis"
                   onClick={() => setMenuOpen(false)}
                   className="mt-2 px-5 py-3 text-center font-semibold text-white rounded-sm"
                   style={{ backgroundColor: "var(--color-accent)" }}
                 >
-                  Demander un devis
+                  {t.devis}
                 </Link>
               </div>
             </motion.div>
