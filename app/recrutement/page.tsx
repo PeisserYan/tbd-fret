@@ -6,22 +6,8 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { fadeInUp, staggerContainer } from "@/lib/variants";
-
-const postes = [
-  {
-    title: "Chauffeur SPL grand routier",
-    tag: "Temps plein",
-    details: [
-      "Départs à la semaine, France-Italie",
-      "Domicile 50 km max autour de Chambéry",
-      "Permis CE + FIMO/FCO requis",
-      "ADR souhaité",
-    ],
-    contact: "06 07 32 48 61",
-    contact2: "04 79 54 49 90",
-    leboncoin: true,
-  },
-];
+import { useLang } from "@/lib/LangContext";
+import { translations } from "@/lib/translations";
 
 type FormData = {
   nom: string;
@@ -42,17 +28,20 @@ const initialForm: FormData = {
 type Status = "idle" | "loading" | "success" | "error";
 
 export default function RecrutementPage() {
+  const { lang } = useLang();
+  const t = translations[lang].recrutement;
+
   const [form, setForm] = useState<FormData>(initialForm);
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [status, setStatus] = useState<Status>("idle");
 
   function validate() {
     const newErrors: Partial<FormData> = {};
-    if (!form.nom.trim()) newErrors.nom = "Ce champ est requis";
-    if (!form.email.trim()) newErrors.email = "Ce champ est requis";
+    if (!form.nom.trim()) newErrors.nom = t.requis;
+    if (!form.email.trim()) newErrors.email = t.requis;
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
-      newErrors.email = "Email invalide";
-    if (!form.poste) newErrors.poste = "Veuillez choisir un poste";
+      newErrors.email = t.email_invalide;
+    if (!form.poste) newErrors.poste = t.poste_requis;
     return newErrors;
   }
 
@@ -129,7 +118,7 @@ export default function RecrutementPage() {
                   className="text-sm font-semibold uppercase tracking-widest"
                   style={{ color: "var(--color-accent)" }}
                 >
-                  On recrute
+                  {t.tag}
                 </span>
                 <div
                   className="w-8 h-0.5"
@@ -144,10 +133,10 @@ export default function RecrutementPage() {
                   letterSpacing: "0.02em",
                 }}
               >
-                REJOIGNEZ TBD
+                {t.h1}
               </h1>
               <p className="text-white/70 text-lg max-w-lg mx-auto">
-                Plus de 40 ans d'expérience. Une flotte neuve. Un travail sérieux.
+                {t.subtitle}
               </p>
             </motion.div>
           </div>
@@ -170,7 +159,7 @@ export default function RecrutementPage() {
                   color: "var(--color-text-dark)",
                 }}
               >
-                POSTES OUVERTS
+                {t.postes_titre}
               </h2>
             </motion.div>
             <motion.div
@@ -180,127 +169,103 @@ export default function RecrutementPage() {
               viewport={{ once: true, amount: 0.2 }}
               variants={staggerContainer}
             >
-              {postes.map((poste, i) => (
-                <motion.div key={i} variants={fadeInUp}>
-                  <div
-                    className="rounded-lg p-8 border"
-                    style={{
-                      borderColor: "var(--color-border)",
-                      backgroundColor: "var(--color-off-white)",
-                    }}
-                  >
-                    <div className="flex items-start justify-between gap-4 mb-6">
-                      <h3
-                        className="text-2xl"
-                        style={{
-                          fontFamily: "var(--font-bebas-neue)",
-                          letterSpacing: "0.02em",
-                          color: "var(--color-text-dark)",
-                        }}
-                      >
-                        {poste.title}
-                      </h3>
-                      <span
-                        className="shrink-0 text-xs font-semibold px-3 py-1 rounded-full"
-                        style={{
-                          backgroundColor: "rgba(0,191,255,0.12)",
-                          color: "var(--color-primary)",
-                        }}
-                      >
-                        {poste.tag}
-                      </span>
-                    </div>
-                    <ul className="flex flex-col gap-2 mb-6">
-                      {poste.details.map((d, j) => (
-                        <li key={j} className="flex items-start gap-3">
-                          <svg
-                            className="shrink-0 mt-0.5"
-                            width="14"
-                            height="14"
-                            viewBox="0 0 14 14"
-                            fill="none"
-                            aria-hidden="true"
-                          >
-                            <circle cx="7" cy="7" r="7" fill="#1B4F8A" opacity="0.15" />
-                            <path
-                              d="M4.5 7L6.5 9L9.5 5"
-                              stroke="#1B4F8A"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                          <span
-                            className="text-sm"
-                            style={{ color: "var(--color-text-muted)" }}
-                          >
-                            {d}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="flex flex-col gap-2">
-                      <a
-                        href={`tel:${poste.contact.replace(/\s/g, "")}`}
-                        className="inline-flex items-center gap-2 text-sm font-semibold"
-                        style={{ color: "var(--color-primary)" }}
-                      >
+              <motion.div variants={fadeInUp}>
+                <div
+                  className="rounded-lg p-8 border"
+                  style={{
+                    borderColor: "var(--color-border)",
+                    backgroundColor: "var(--color-off-white)",
+                  }}
+                >
+                  <div className="flex items-start justify-between gap-4 mb-6">
+                    <h3
+                      className="text-2xl"
+                      style={{
+                        fontFamily: "var(--font-bebas-neue)",
+                        letterSpacing: "0.02em",
+                        color: "var(--color-text-dark)",
+                      }}
+                    >
+                      {t.poste_title}
+                    </h3>
+                    <span
+                      className="shrink-0 text-xs font-semibold px-3 py-1 rounded-full"
+                      style={{
+                        backgroundColor: "rgba(0,191,255,0.12)",
+                        color: "var(--color-primary)",
+                      }}
+                    >
+                      {t.poste_tag}
+                    </span>
+                  </div>
+                  <ul className="flex flex-col gap-2 mb-6">
+                    {(t.poste_details as readonly string[]).map((d, j) => (
+                      <li key={j} className="flex items-start gap-3">
                         <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
+                          className="shrink-0 mt-0.5"
+                          width="14"
+                          height="14"
+                          viewBox="0 0 14 14"
                           fill="none"
                           aria-hidden="true"
                         >
+                          <circle cx="7" cy="7" r="7" fill="#1B4F8A" opacity="0.15" />
                           <path
-                            d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
-                            fill="currentColor"
+                            d="M4.5 7L6.5 9L9.5 5"
+                            stroke="#1B4F8A"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                           />
                         </svg>
-                        {poste.contact}
-                      </a>
-                      {poste.contact2 && (
-                        <a
-                          href={`tel:+33${poste.contact2.replace(/\s/g, "").slice(1)}`}
-                          className="inline-flex items-center gap-2 text-sm font-semibold"
-                          style={{ color: "var(--color-primary)" }}
+                        <span
+                          className="text-sm"
+                          style={{ color: "var(--color-text-muted)" }}
                         >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
-                              fill="currentColor"
-                            />
-                          </svg>
-                          {poste.contact2}
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                  {poste.leboncoin && (
-                    <p
-                      className="mt-3 text-sm text-center"
-                      style={{ color: "var(--color-text-muted)" }}
+                          {d}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="flex flex-col gap-2">
+                    <a
+                      href="tel:0607324861"
+                      className="inline-flex items-center gap-2 text-sm font-semibold"
+                      style={{ color: "var(--color-primary)" }}
                     >
-                      Retrouvez nos annonces sur{" "}
-                      <a
-                        href="https://www.leboncoin.fr/ad/offres_d_emploi/3187751144"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-semibold hover:underline"
-                        style={{ color: "var(--color-primary)" }}
-                      >
-                        Le Bon Coin
-                      </a>
-                    </p>
-                  )}
-                </motion.div>
-              ))}
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="currentColor" />
+                      </svg>
+                      06 07 32 48 61
+                    </a>
+                    <a
+                      href="tel:+33479544990"
+                      className="inline-flex items-center gap-2 text-sm font-semibold"
+                      style={{ color: "var(--color-primary)" }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="currentColor" />
+                      </svg>
+                      04 79 54 49 90
+                    </a>
+                  </div>
+                </div>
+                <p
+                  className="mt-3 text-sm text-center"
+                  style={{ color: "var(--color-text-muted)" }}
+                >
+                  {t.leboncoin}{" "}
+                  <a
+                    href="https://www.leboncoin.fr/ad/offres_d_emploi/3187751144"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold hover:underline"
+                    style={{ color: "var(--color-primary)" }}
+                  >
+                    Le Bon Coin
+                  </a>
+                </p>
+              </motion.div>
             </motion.div>
           </div>
         </section>
@@ -322,10 +287,10 @@ export default function RecrutementPage() {
                 className="text-4xl lg:text-5xl text-white mb-3"
                 style={{ fontFamily: "var(--font-bebas-neue)" }}
               >
-                ENVOYER MA CANDIDATURE
+                {t.candidature_titre}
               </h2>
               <p className="text-white/60">
-                Nous prenons le temps de lire chaque candidature.
+                {t.candidature_subtitle}
               </p>
             </motion.div>
 
@@ -345,7 +310,7 @@ export default function RecrutementPage() {
                     className="block text-sm font-semibold mb-1.5"
                     style={{ color: "var(--color-text-dark)" }}
                   >
-                    Nom et prénom <span className="text-red-500">*</span>
+                    {t.nom} <span className="text-red-500">*</span>
                   </label>
                   <input
                     id="nom"
@@ -367,7 +332,7 @@ export default function RecrutementPage() {
                     className="block text-sm font-semibold mb-1.5"
                     style={{ color: "var(--color-text-dark)" }}
                   >
-                    Téléphone
+                    {t.telephone}
                   </label>
                   <input
                     id="telephone"
@@ -388,7 +353,7 @@ export default function RecrutementPage() {
                   className="block text-sm font-semibold mb-1.5"
                   style={{ color: "var(--color-text-dark)" }}
                 >
-                  Email <span className="text-red-500">*</span>
+                  {t.email} <span className="text-red-500">*</span>
                 </label>
                 <input
                   id="email"
@@ -411,7 +376,7 @@ export default function RecrutementPage() {
                   className="block text-sm font-semibold mb-1.5"
                   style={{ color: "var(--color-text-dark)" }}
                 >
-                  Poste souhaité <span className="text-red-500">*</span>
+                  {t.poste_label} <span className="text-red-500">*</span>
                 </label>
                 <select
                   id="poste"
@@ -421,9 +386,10 @@ export default function RecrutementPage() {
                   className={inputClass}
                   style={inputStyle}
                 >
-                  <option value="">Sélectionner un poste...</option>
-                  <option>Chauffeur SPL grand routier</option>
-                  <option>Autre / Candidature spontanée</option>
+                  <option value="">{t.poste_placeholder}</option>
+                  {(t.poste_options as readonly string[]).map((p) => (
+                    <option key={p}>{p}</option>
+                  ))}
                 </select>
                 {errors.poste && (
                   <p className="mt-1 text-xs text-red-500">{errors.poste}</p>
@@ -436,7 +402,7 @@ export default function RecrutementPage() {
                   className="block text-sm font-semibold mb-1.5"
                   style={{ color: "var(--color-text-dark)" }}
                 >
-                  Message / Motivation
+                  {t.message}
                 </label>
                 <textarea
                   id="message"
@@ -444,7 +410,7 @@ export default function RecrutementPage() {
                   value={form.message}
                   onChange={handleChange}
                   rows={4}
-                  placeholder="Parlez-nous de votre expérience, de vos disponibilités..."
+                  placeholder={t.message_placeholder}
                   className={inputClass}
                   style={inputStyle}
                 />
@@ -456,19 +422,17 @@ export default function RecrutementPage() {
                 className="w-full py-4 font-semibold text-white rounded-sm text-base transition-all duration-200 hover:brightness-110 disabled:opacity-60 disabled:cursor-not-allowed"
                 style={{ backgroundColor: "var(--color-accent)" }}
               >
-                {status === "loading"
-                  ? "Envoi en cours..."
-                  : "Envoyer ma candidature"}
+                {status === "loading" ? t.envoi_cours : t.envoyer}
               </button>
 
               {status === "success" && (
                 <p className="text-center text-sm font-medium text-green-600 bg-green-50 border border-green-200 rounded-sm p-3">
-                  Candidature envoyée ! Nous reviendrons vers vous rapidement.
+                  {t.succes}
                 </p>
               )}
               {status === "error" && (
                 <p className="text-center text-sm font-medium text-red-600 bg-red-50 border border-red-200 rounded-sm p-3">
-                  Une erreur est survenue. Appelez-nous au{" "}
+                  {t.erreur}{" "}
                   <a href="tel:0607324861" className="underline">
                     06 07 32 48 61
                   </a>
@@ -488,7 +452,7 @@ export default function RecrutementPage() {
                 href="/"
                 className="text-white/50 hover:text-white text-sm transition-colors"
               >
-                ← Retour à l&apos;accueil
+                {t.retour}
               </Link>
             </motion.div>
           </div>

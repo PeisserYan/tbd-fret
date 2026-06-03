@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { fadeInUp } from "@/lib/variants";
+import { useLang } from "@/lib/LangContext";
+import { translations } from "@/lib/translations";
 
 type FormData = {
   nom: string;
@@ -95,6 +97,9 @@ function Field({
 }
 
 export default function DevisSection() {
+  const { lang } = useLang();
+  const t = translations[lang].devis;
+
   const [form, setForm] = useState<FormData>(initialForm);
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [status, setStatus] = useState<Status>("idle");
@@ -116,11 +121,11 @@ export default function DevisSection() {
     const newErrors: Partial<FormData> = {};
     for (const field of required) {
       if (!form[field].trim()) {
-        newErrors[field] = "Ce champ est requis";
+        newErrors[field] = t.requis;
       }
     }
     if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      newErrors.email = "Email invalide";
+      newErrors.email = t.email_invalide;
     }
     return newErrors;
   }
@@ -186,7 +191,7 @@ export default function DevisSection() {
               className="text-sm font-semibold uppercase tracking-widest"
               style={{ color: "var(--color-primary)" }}
             >
-              Réponse sous 24h
+              {t.surtitre}
             </span>
             <div
               className="w-8 h-0.5"
@@ -200,10 +205,10 @@ export default function DevisSection() {
               color: "var(--color-text-dark)",
             }}
           >
-            DEMANDEZ UN DEVIS
+            {t.titre}
           </h2>
           <p style={{ color: "var(--color-text-muted)" }}>
-            Tous nos transports sont effectués avec notre propre flotte.
+            {t.sous_titre}
           </p>
         </motion.div>
 
@@ -220,7 +225,7 @@ export default function DevisSection() {
           className="p-8 space-y-8"
           noValidate
         >
-          {/* Bloc 1 — Votre entreprise */}
+          {/* Bloc 1 */}
           <div>
             <h3
               className="text-lg mb-5 pb-3 border-b"
@@ -231,14 +236,14 @@ export default function DevisSection() {
                 borderColor: "var(--color-border)",
               }}
             >
-              1. Votre entreprise
+              {t.bloc1}
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <Field name="nom" label="Nom et prénom" placeholder="Jean Dupont" value={form.nom} error={errors.nom} onChange={handleChange} isRequired />
-              <Field name="entreprise" label="Entreprise" placeholder="Acme SAS" value={form.entreprise} error={errors.entreprise} onChange={handleChange} isRequired />
+              <Field name="nom" label={t.nom} placeholder="Jean Dupont" value={form.nom} error={errors.nom} onChange={handleChange} isRequired />
+              <Field name="entreprise" label={t.entreprise} placeholder="Acme SAS" value={form.entreprise} error={errors.entreprise} onChange={handleChange} isRequired />
               <Field
                 name="email"
-                label="Email professionnel"
+                label={t.email}
                 type="email"
                 placeholder="jean.dupont@acme.fr"
                 value={form.email}
@@ -248,7 +253,7 @@ export default function DevisSection() {
               />
               <Field
                 name="telephone"
-                label="Téléphone"
+                label={t.telephone}
                 type="tel"
                 placeholder="+33 6 12 34 56 78"
                 value={form.telephone}
@@ -259,7 +264,7 @@ export default function DevisSection() {
             </div>
           </div>
 
-          {/* Bloc 2 — Votre expédition */}
+          {/* Bloc 2 */}
           <div>
             <h3
               className="text-lg mb-5 pb-3 border-b"
@@ -270,10 +275,10 @@ export default function DevisSection() {
                 borderColor: "var(--color-border)",
               }}
             >
-              2. Votre expédition
+              {t.bloc2}
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <Field name="typeMarchandise" label="Type de marchandise" isRequired>
+              <Field name="typeMarchandise" label={t.type_marchandise} isRequired>
                 <select
                   id="typeMarchandise"
                   name="typeMarchandise"
@@ -282,19 +287,15 @@ export default function DevisSection() {
                   className={inputClass}
                   style={inputStyle}
                 >
-                  <option value="">Sélectionner...</option>
-                  <option>Marchandises générales</option>
-                  <option>Alimentaire sec</option>
-                  <option>Produits industriels</option>
-                  <option>Transport ADR</option>
-                  <option>Autre</option>
+                  <option value="">{t.selectioner}</option>
+                  {t.marchandises.map((m) => <option key={m}>{m}</option>)}
                 </select>
                 {errors.typeMarchandise && (
                   <p className="mt-1 text-xs text-red-500">{errors.typeMarchandise}</p>
                 )}
               </Field>
-              <Field name="poids" label="Poids estimé" placeholder="ex: 5 000 kg" value={form.poids} error={errors.poids} onChange={handleChange} isRequired />
-              <Field name="palettes" label="Nombre de palettes" isRequired>
+              <Field name="poids" label={t.poids} placeholder="ex: 5 000 kg" value={form.poids} error={errors.poids} onChange={handleChange} isRequired />
+              <Field name="palettes" label={t.palettes} isRequired>
                 <select
                   id="palettes"
                   name="palettes"
@@ -303,22 +304,18 @@ export default function DevisSection() {
                   className={inputClass}
                   style={inputStyle}
                 >
-                  <option value="">Sélectionner...</option>
-                  <option>1–5 palettes</option>
-                  <option>6–10 palettes</option>
-                  <option>11–20 palettes</option>
-                  <option>21–33 palettes</option>
-                  <option>Charge complète</option>
+                  <option value="">{t.selectioner}</option>
+                  {t.palettes_options.map((p) => <option key={p}>{p}</option>)}
                 </select>
                 {errors.palettes && (
                   <p className="mt-1 text-xs text-red-500">{errors.palettes}</p>
                 )}
               </Field>
-              <Field name="dateChargement" label="Date souhaitée" type="date" value={form.dateChargement} error={errors.dateChargement} onChange={handleChange} isRequired />
+              <Field name="dateChargement" label={t.date} type="date" value={form.dateChargement} error={errors.dateChargement} onChange={handleChange} isRequired />
               <Field
                 name="villeDepart"
-                label="Ville de départ"
-                placeholder="Lyon, Grenoble..."
+                label={t.ville_depart}
+                placeholder={t.placeholder_ville_depart}
                 value={form.villeDepart}
                 error={errors.villeDepart}
                 onChange={handleChange}
@@ -326,8 +323,8 @@ export default function DevisSection() {
               />
               <Field
                 name="villeArrivee"
-                label="Ville d'arrivée en Italie"
-                placeholder="Milano, Torino..."
+                label={t.ville_arrivee}
+                placeholder={t.placeholder_ville_arrivee}
                 value={form.villeArrivee}
                 error={errors.villeArrivee}
                 onChange={handleChange}
@@ -336,7 +333,7 @@ export default function DevisSection() {
             </div>
           </div>
 
-          {/* Bloc 3 — Précisions */}
+          {/* Bloc 3 */}
           <div>
             <h3
               className="text-lg mb-5 pb-3 border-b"
@@ -347,7 +344,7 @@ export default function DevisSection() {
                 borderColor: "var(--color-border)",
               }}
             >
-              3. Précisions (optionnel)
+              {t.bloc3}
             </h3>
             <div>
               <label
@@ -355,7 +352,7 @@ export default function DevisSection() {
                 className={labelClass}
                 style={labelStyle}
               >
-                Message
+                {t.message}
               </label>
               <textarea
                 id="message"
@@ -363,7 +360,7 @@ export default function DevisSection() {
                 value={form.message}
                 onChange={handleChange}
                 rows={4}
-                placeholder="Précisions sur la marchandise, contraintes particulières..."
+                placeholder={t.placeholder_message}
                 className={inputClass}
                 style={inputStyle}
               />
@@ -378,17 +375,17 @@ export default function DevisSection() {
               className="w-full py-4 font-semibold text-white rounded-sm text-base transition-all duration-200 hover:brightness-110 active:scale-98 disabled:opacity-60 disabled:cursor-not-allowed"
               style={{ backgroundColor: "var(--color-accent)" }}
             >
-              {status === "loading" ? "Envoi en cours..." : "Envoyer ma demande →"}
+              {status === "loading" ? t.envoi_cours : t.envoyer}
             </button>
 
             {status === "success" && (
               <p className="mt-4 text-center text-sm font-medium text-green-600 bg-green-50 border border-green-200 rounded-sm p-3">
-                Votre demande a bien été envoyée. Daniel vous répondra sous 24h.
+                {t.succes}
               </p>
             )}
             {status === "error" && (
               <p className="mt-4 text-center text-sm font-medium text-red-600 bg-red-50 border border-red-200 rounded-sm p-3">
-                Une erreur est survenue. Appelez-nous au{" "}
+                {t.erreur}{" "}
                 <a href="tel:+33479544990" className="underline">
                   04 79 54 49 90
                 </a>

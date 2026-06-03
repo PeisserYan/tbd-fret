@@ -228,8 +228,8 @@ export const translations = {
     },
     hero: {
       tag: "Specialista Francia — Italia dal 1980",
-      h1_line1: "INSIEME",
-      h1_line2: "A DESTINAZIONE",
+      h1_line1: "INSIEME A",
+      h1_line2: "DESTINAZIONE",
       subtitle: "Trasportatore su strada con sede in Savoia.\n36 mezzi Volvo. Oltre 5 000 transiti ai tunnel transalpini.",
       cta_devis: "Richiedi un preventivo →",
       cta_decouvrir: "Scopri TBD ↓",
