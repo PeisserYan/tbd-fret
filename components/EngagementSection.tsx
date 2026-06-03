@@ -2,16 +2,13 @@
 
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/variants";
-
-const engagements = [
-  "Flotte 100% Volvo I-Save 500 Euro 6 — camions à conduite prédictive",
-  "Vitesse bridée à 82 km/h — réduction de 10% de la consommation",
-  "Pneumatiques 100% Michelin X Line Energy — recreusage + 2 rechapages et permutation systématique",
-  "Géolocalisation 100% Eliot — optimisation des itinéraires en temps réel",
-  "Formation éco-conduite pour tous les chauffeurs",
-];
+import { useLang } from "@/lib/LangContext";
+import { translations } from "@/lib/translations";
 
 export default function EngagementSection() {
+  const { lang } = useLang();
+  const t = translations[lang].engagement;
+
   return (
     <section
       id="engagement"
@@ -45,10 +42,10 @@ export default function EngagementSection() {
                 letterSpacing: "0.02em",
               }}
             >
-              DE REJETS DE GAZ À EFFET DE SERRE
+              {t.sous_titre}
             </div>
             <p className="text-white/60 text-base leading-relaxed">
-              comparé à un camion standard de référence
+              {t.description}
             </p>
           </motion.div>
 
@@ -60,7 +57,7 @@ export default function EngagementSection() {
             viewport={{ once: true, amount: 0.2 }}
             variants={staggerContainer}
           >
-            {engagements.map((item, i) => (
+            {t.items.map((item, i) => (
               <motion.li
                 key={i}
                 variants={fadeInUp}

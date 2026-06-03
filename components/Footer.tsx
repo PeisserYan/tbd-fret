@@ -1,24 +1,13 @@
+"use client";
+
 import Link from "next/link";
-
-const quickLinks = [
-  { label: "L'entreprise", href: "/#expertise" },
-  { label: "Prestations", href: "/#prestations" },
-  { label: "Devis", href: "/#devis" },
-  { label: "Recrutement", href: "/recrutement" },
-  { label: "Transport France-Italie", href: "/france-italie" },
-];
-
-const horaires = [
-  { jour: "Lundi", heures: "08:00–12:30 / 14:00–18:00" },
-  { jour: "Mardi", heures: "08:00–12:30 / 14:00–18:00" },
-  { jour: "Mercredi", heures: "08:00–12:30 / 14:00–18:00" },
-  { jour: "Jeudi", heures: "08:00–12:30 / 14:00–18:00" },
-  { jour: "Vendredi", heures: "08:00–12:30 / 14:00–18:00" },
-  { jour: "Samedi", heures: "06:30–15:00" },
-  { jour: "Dimanche", heures: "Fermé" },
-];
+import { useLang } from "@/lib/LangContext";
+import { translations } from "@/lib/translations";
 
 export default function Footer() {
+  const { lang } = useLang();
+  const t = translations[lang].footer;
+
   return (
     <footer
       className="border-t"
@@ -35,18 +24,17 @@ export default function Footer() {
               <img src="/logo-tbd.png" alt="TBD Logo" style={{ height: "110px", width: "auto" }} />
             </Link>
             <p className="text-white/60 text-sm leading-relaxed max-w-xs">
-              Spécialiste du transport routier de fret France-Italie depuis 1980.
-              Basé à Voglans, Savoie.
+              {t.description}
             </p>
           </div>
 
           {/* Quick links */}
           <div>
             <p className="text-white/70 text-xs font-semibold uppercase tracking-widest mb-4">
-              Navigation
+              {t.navigation}
             </p>
             <ul className="flex flex-col gap-2">
-              {quickLinks.map((link) => (
+              {t.nav_links.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -62,10 +50,10 @@ export default function Footer() {
           {/* Horaires */}
           <div className="pr-4 lg:pr-16">
             <p className="text-white/70 text-xs font-semibold uppercase tracking-widest mb-4">
-              Horaires d&apos;ouverture
+              {t.horaires}
             </p>
             <ul className="flex flex-col gap-1.5">
-              {horaires.map(({ jour, heures }) => (
+              {t.horaires_data.map(({ jour, heures }) => (
                 <li key={jour} className="flex justify-between gap-2 text-xs">
                   <span className="text-white/70 shrink-0">{jour}</span>
                   <span className="text-white/75 text-right">{heures}</span>
@@ -77,7 +65,7 @@ export default function Footer() {
           {/* Legal */}
           <div>
             <p className="text-white/70 text-xs font-semibold uppercase tracking-widest mb-4">
-              Informations légales
+              {t.legal}
             </p>
             <ul className="flex flex-col gap-2">
               <li>
@@ -120,21 +108,21 @@ export default function Footer() {
           style={{ borderColor: "rgba(255,255,255,0.08)" }}
         >
           <p className="text-white/50 text-xs">
-            © 2026 TBD – Transports Bogeat Daniel. Tous droits réservés.
+            {t.copyright}
           </p>
           <div className="flex items-center gap-4">
             <Link
               href="/mentions-legales"
               className="text-white/50 hover:text-white/75 text-xs transition-colors duration-200"
             >
-              Mentions légales
+              {t.mentions}
             </Link>
             <span className="text-white/40 text-xs">·</span>
             <Link
               href="/politique-de-confidentialite"
               className="text-white/50 hover:text-white/75 text-xs transition-colors duration-200"
             >
-              Politique de confidentialité
+              {t.confidentialite}
             </Link>
           </div>
         </div>

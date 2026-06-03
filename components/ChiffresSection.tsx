@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/variants";
+import { useLang } from "@/lib/LangContext";
+import { translations } from "@/lib/translations";
 
 function useCounter(target: number, duration = 1800, active: boolean) {
   const [count, setCount] = useState(0);
@@ -115,40 +117,18 @@ function StatCard({
   );
 }
 
-const stats = [
-  {
-    numericValue: 7850000,
-    suffix: " €",
-    label: "CA annuel",
-    isPlaceholder: false,
-  },
-  {
-    numericValue: 36,
-    suffix: "",
-    label: "Ensembles Volvo actifs",
-    isPlaceholder: false,
-  },
-  {
-    numericValue: 3850000,
-    suffix: " km",
-    label: "Km parcourus / an",
-    isPlaceholder: false,
-  },
-  {
-    numericValue: 5025,
-    suffix: "",
-    label: "Passages annuels au tunnel du Fréjus",
-    isPlaceholder: false,
-  },
-  {
-    numericValue: 48,
-    suffix: "",
-    label: "Collaborateurs",
-    isPlaceholder: false,
-  },
-];
-
 export default function ChiffresSection() {
+  const { lang } = useLang();
+  const t = translations[lang].chiffres;
+
+  const stats = [
+    { numericValue: 7850000, suffix: " €",  label: t.ca,              isPlaceholder: false },
+    { numericValue: 36,      suffix: "",     label: t.camions,         isPlaceholder: false },
+    { numericValue: 3850000, suffix: " km",  label: t.km,              isPlaceholder: false },
+    { numericValue: 5025,    suffix: "",     label: t.frejus,          isPlaceholder: false },
+    { numericValue: 48,      suffix: "",     label: t.collaborateurs,  isPlaceholder: false },
+  ];
+
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.2 });
 
@@ -174,7 +154,7 @@ export default function ChiffresSection() {
               className="text-sm font-semibold uppercase tracking-widest"
               style={{ color: "var(--color-primary)" }}
             >
-              En quelques chiffres
+              {t.surtitre}
             </span>
             <div
               className="w-8 h-0.5"
@@ -188,7 +168,7 @@ export default function ChiffresSection() {
               color: "var(--color-text-dark)",
             }}
           >
-            TBD EN CHIFFRES
+            {t.titre}
           </h2>
         </motion.div>
 

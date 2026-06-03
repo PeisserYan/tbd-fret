@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/variants";
+import { useLang } from "@/lib/LangContext";
+import { translations } from "@/lib/translations";
 
 function useCounter(target: number, duration = 1500, active: boolean) {
   const [count, setCount] = useState(0);
@@ -81,13 +83,6 @@ function CapaciteCard({
   );
 }
 
-const marchandises = [
-  "Marchandises générales",
-  "Transport ADR",
-  "Alimentaire sec",
-  "Produits industriels",
-];
-
 const franceVilles = [
   "Orléans",
   "Paris",
@@ -114,6 +109,8 @@ const italieVilles = [
 ];
 
 export default function PrestationsSection() {
+  const { lang } = useLang();
+  const t = translations[lang].prestations;
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.2 });
 
@@ -141,7 +138,7 @@ export default function PrestationsSection() {
               className="text-sm font-semibold uppercase tracking-widest"
               style={{ color: "var(--color-accent)" }}
             >
-              De 1 palette à 33 palettes
+              {t.surtitre}
             </span>
             <div
               className="w-8 h-0.5"
@@ -152,10 +149,10 @@ export default function PrestationsSection() {
             className="text-5xl lg:text-6xl text-white mb-4"
             style={{ fontFamily: "var(--font-bebas-neue)" }}
           >
-            NOS PRESTATIONS
+            {t.titre}
           </h2>
           <p className="text-white/60 text-lg max-w-2xl mx-auto">
-            Du colis de 100 kg à la pleine charge de 28 tonnes
+            {t.sous_titre}
           </p>
         </motion.div>
 
@@ -167,30 +164,10 @@ export default function PrestationsSection() {
           viewport={{ once: true, amount: 0.2 }}
           variants={staggerContainer}
         >
-          <CapaciteCard
-            value="1 → 33 palettes"
-            label="Palettes Europe"
-            tooltip="Que vous ayez une seule palette ou un camion complet, nous adaptons le transport à votre volume."
-            active={inView}
-          />
-          <CapaciteCard
-            value="100 kg → 28 t"
-            label="Poids transporté"
-            tooltip="Nous prenons en charge tous les gabarits, d'un petit colis à la pleine charge d'une semi-remorque."
-            active={inView}
-          />
-          <CapaciteCard
-            value="1 → 90 m³"
-            label="Volume"
-            tooltip="Du petit envoi au chargement complet, nous optimisons l'espace pour réduire vos coûts."
-            active={inView}
-          />
-          <CapaciteCard
-            value="1 → 13,60 m"
-            label="Longueur"
-            tooltip="Nos véhicules acceptent les marchandises longues jusqu'à 13,60 mètres, y compris les pièces industrielles."
-            active={inView}
-          />
+          <CapaciteCard value={t.capacites[0].value} label={t.capacites[0].label} tooltip={t.capacites[0].tooltip} active={inView} />
+          <CapaciteCard value={t.capacites[1].value} label={t.capacites[1].label} tooltip={t.capacites[1].tooltip} active={inView} />
+          <CapaciteCard value={t.capacites[2].value} label={t.capacites[2].label} tooltip={t.capacites[2].tooltip} active={inView} />
+          <CapaciteCard value={t.capacites[3].value} label={t.capacites[3].label} tooltip={t.capacites[3].tooltip} active={inView} />
         </motion.div>
 
         {/* Marchandises */}
@@ -205,13 +182,13 @@ export default function PrestationsSection() {
             className="text-2xl text-white mb-6 text-center"
             style={{ fontFamily: "var(--font-bebas-neue)", letterSpacing: "0.02em" }}
           >
-            TYPES DE MARCHANDISES ACCEPTÉES
+            {t.marchandises_titre}
           </h3>
           <div className="flex flex-wrap justify-center items-center gap-3">
-            {marchandises.map((m, i) => (
+            {t.marchandises.map((m, i) => (
               <span key={m}>
                 <span className="text-white font-medium text-sm">{m}</span>
-                {i < marchandises.length - 1 && (
+                {i < t.marchandises.length - 1 && (
                   <span
                     className="ml-3"
                     style={{ color: "var(--color-accent)" }}
@@ -237,14 +214,14 @@ export default function PrestationsSection() {
             className="text-2xl text-white mb-8 text-center"
             style={{ fontFamily: "var(--font-bebas-neue)", letterSpacing: "0.02em" }}
           >
-            ZONE DE DESSERTE
+            {t.desserte_titre}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">🇫🇷</span>
-                <span className="text-white font-semibold">France</span>
-                <span className="text-white/40 text-sm">— Région parisienne</span>
+                <span className="text-white font-semibold">{t.france_label}</span>
+                <span className="text-white/40 text-sm">{t.france_sub}</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {franceVilles.map((v) => (
@@ -260,8 +237,8 @@ export default function PrestationsSection() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">🇮🇹</span>
-                <span className="text-white font-semibold">Italie</span>
-                <span className="text-white/40 text-sm">— Centre et Nord</span>
+                <span className="text-white font-semibold">{t.italie_label}</span>
+                <span className="text-white/40 text-sm">{t.italie_sub}</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {italieVilles.map((v) => (

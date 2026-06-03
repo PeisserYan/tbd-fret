@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useLang } from "@/lib/LangContext";
+import { translations } from "@/lib/translations";
 
 const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -14,6 +16,8 @@ function heroItem(delay: number) {
 }
 
 export default function HeroSection() {
+  const { lang } = useLang();
+  const t = translations[lang].hero;
   const { scrollY } = useScroll();
   const truckX = useTransform(scrollY, [0, 600], [0, -1000]);
 
@@ -68,7 +72,7 @@ export default function HeroSection() {
               className="text-sm font-semibold uppercase tracking-widest"
               style={{ color: "var(--color-accent)" }}
             >
-              Spécialiste France — Italie depuis 1980
+              {t.tag}
             </span>
           </motion.div>
 
@@ -82,8 +86,8 @@ export default function HeroSection() {
               letterSpacing: "0.02em",
             }}
           >
-            ENSEMBLE
-            <br />À BON PORT
+            {t.h1_line1}
+            <br />{t.h1_line2}
           </motion.h1>
 
           {/* Sous-titre */}
@@ -92,9 +96,7 @@ export default function HeroSection() {
             className="text-white/75 text-lg leading-relaxed mb-10 max-w-md"
             style={{ fontFamily: "var(--font-dm-sans)" }}
           >
-            Transporteur routier de marchandises basé en Savoie.
-            <br />
-            36 ensembles Volvo. Plus de 5 000 passages aux tunnels transalpins.
+            {t.subtitle}
           </motion.p>
 
           {/* CTAs */}
@@ -107,7 +109,7 @@ export default function HeroSection() {
               className="inline-flex items-center justify-center gap-2 px-8 py-4 font-semibold text-white rounded-sm text-base transition-all duration-200 hover:brightness-110 active:scale-95"
               style={{ backgroundColor: "var(--color-accent)" }}
             >
-              Demander un devis →
+              {t.cta_devis}
             </Link>
             <button
               onClick={() => {
@@ -116,7 +118,7 @@ export default function HeroSection() {
               }}
               className="inline-flex items-center justify-center gap-2 px-8 py-4 font-semibold text-white rounded-sm text-base border border-white/30 hover:border-white/60 transition-all duration-200"
             >
-              Découvrir TBD ↓
+              {t.cta_decouvrir}
             </button>
           </motion.div>
         </div>

@@ -2,8 +2,13 @@
 
 import { motion } from "framer-motion";
 import { fadeInUp } from "@/lib/variants";
+import { useLang } from "@/lib/LangContext";
+import { translations } from "@/lib/translations";
 
 export default function ContactSection() {
+  const { lang } = useLang();
+  const t = translations[lang].contact;
+
   return (
     <section
       id="contact"
@@ -22,7 +27,7 @@ export default function ContactSection() {
             className="text-5xl lg:text-6xl text-white"
             style={{ fontFamily: "var(--font-bebas-neue)" }}
           >
-            NOUS CONTACTER
+            {t.titre}
           </h2>
         </motion.div>
 
@@ -111,13 +116,13 @@ export default function ContactSection() {
               style={{ backgroundColor: "rgba(255,255,255,0.04)" }}
             >
               <p className="text-white/50 text-xs font-semibold uppercase tracking-widest mb-2">
-                Horaires d&apos;ouverture
+                {t.horaires_titre}
               </p>
               <p className="text-white/80 text-sm">
-                Lundi – Vendredi&nbsp;: <strong className="text-white">8h00 – 18h00</strong>
+                {t.lun_ven}&nbsp;: <strong className="text-white">8h00 – 18h00</strong>
               </p>
               <p className="text-white/80 text-sm mt-1">
-                Samedi&nbsp;: <strong className="text-white">6h30 – 15h00</strong>
+                {t.sam}&nbsp;: <strong className="text-white">6h30 – 15h00</strong>
               </p>
             </div>
           </motion.div>
@@ -140,7 +145,6 @@ export default function ContactSection() {
               referrerPolicy="no-referrer-when-downgrade"
               title="Localisation TBD Voglans"
             />
-            {/* Bouton ouvrir dans Google Maps */}
             <a
               href="https://www.google.com/maps/search/Transports+Bogeat+Daniel,+241+rue+des+Bouvards,+73420+Voglans"
               target="_blank"
@@ -151,7 +155,7 @@ export default function ContactSection() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="white"/>
               </svg>
-              Voir la fiche Google Maps
+              {t.voir_maps}
             </a>
           </motion.div>
         </div>

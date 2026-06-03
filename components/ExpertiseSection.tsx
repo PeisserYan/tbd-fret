@@ -5,28 +5,14 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/variants";
 import Lightbox from "@/components/Lightbox";
-
-const cards = [
-  {
-    image: "/expertise/Expertise1.jpg",
-    title: "46 ans sur la même route",
-    text: "Depuis 1980, nous transportons des marchandises entre la France et l'Italie à l'aller et au retour. Nous sommes à proximité des tunnels du Mont-Blanc et du Fréjus, où nous sommes abonnés.",
-  },
-  {
-    image: "/expertise/Expertise2.jpg",
-    title: "100% flotte en propriété",
-    text: "Tous nos transports sont effectués avec nos 36 ensembles Volvo FH 500, 40 semi-remorques Krone Taut Liner et 37 chauffeurs grand routiers.",
-  },
-  {
-    image: "/expertise/Expertise3.jpg",
-    title: "Chargement optimisé",
-    text: "Notre plateforme de 1 000 m² à Chambéry permet le groupage et le dégroupage (crossdocking). Seulement 8% de km à vide — la norme est à 10%.",
-  },
-];
-
-const lightboxImages = cards.map((c) => ({ src: c.image, alt: c.title }));
+import { useLang } from "@/lib/LangContext";
+import { translations } from "@/lib/translations";
 
 export default function ExpertiseSection() {
+  const { lang } = useLang();
+  const t = translations[lang].expertise;
+  const cards = t.cards;
+  const lightboxImages = cards.map((c, i) => ({ src: `/expertise/Expertise${i + 1}.jpg`, alt: c.title }));
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   return (
@@ -51,7 +37,7 @@ export default function ExpertiseSection() {
                 className="text-sm font-semibold uppercase tracking-widest"
                 style={{ color: "var(--color-primary)" }}
               >
-                Pourquoi TBD
+                {t.surtitre}
               </span>
               <div className="w-8 h-0.5" style={{ backgroundColor: "var(--color-accent)" }} />
             </div>
@@ -59,7 +45,7 @@ export default function ExpertiseSection() {
               className="text-5xl lg:text-6xl"
               style={{ color: "var(--color-text-dark)", fontFamily: "var(--font-bebas-neue)" }}
             >
-              NOTRE EXPERTISE
+              {t.titre}
             </h2>
           </motion.div>
 
@@ -88,7 +74,7 @@ export default function ExpertiseSection() {
                   aria-label={`Voir ${card.title} en grand`}
                 >
                   <Image
-                    src={card.image}
+                    src={`/expertise/Expertise${i + 1}.jpg`}
                     alt={card.title}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
