@@ -171,23 +171,6 @@ export default function PrestationsSection() {
           <CapaciteCard value={t.capacites[3].value} label={t.capacites[3].label} tooltip={t.capacites[3].tooltip} active={inView} />
         </motion.div>
 
-        {/* Lien Transport Savoie-Turin */}
-        <motion.div
-          className="text-center mb-16"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={fadeInUp}
-        >
-          <Link
-            href="/transport-turin"
-            className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest transition-colors duration-200 hover:brightness-125"
-            style={{ color: "var(--color-accent)" }}
-          >
-            {t.turin_lien}
-          </Link>
-        </motion.div>
-
         {/* Marchandises */}
         <motion.div
           className="mb-16"
@@ -271,6 +254,23 @@ export default function PrestationsSection() {
               </div>
             </div>
           </div>
+        </motion.div>
+
+        {/* Lien Transport Savoie-Turin */}
+        <motion.div
+          className="text-center mt-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={fadeInUp}
+        >
+          <Link
+            href="/transport-turin"
+            className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest transition-colors duration-200 hover:brightness-125"
+            style={{ color: "var(--color-accent)" }}
+          >
+            {t.turin_lien}
+          </Link>
         </motion.div>
       </div>
     </section>
