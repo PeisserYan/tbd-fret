@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { fadeInUp } from "@/lib/variants";
 import { useLang } from "@/lib/LangContext";
@@ -103,6 +103,7 @@ export default function DevisSection() {
   const [form, setForm] = useState<FormData>(initialForm);
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [status, setStatus] = useState<Status>("idle");
+  const hpRef = useRef<HTMLInputElement>(null);
 
   const required: (keyof FormData)[] = [
     "nom",
@@ -154,7 +155,7 @@ export default function DevisSection() {
       const res = await fetch("/api/devis", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, _hp: hpRef.current?.value ?? "" }),
       });
       const data = await res.json();
       if (data.success) {
@@ -369,6 +370,14 @@ export default function DevisSection() {
 
           {/* Submit */}
           <div>
+            <input
+              type="text"
+              name="_hp"
+              ref={hpRef}
+              style={{ position: "absolute", left: "-9999px", opacity: 0 }}
+              tabIndex={-1}
+              autoComplete="off"
+            />
             <button
               type="submit"
               disabled={status === "loading"}

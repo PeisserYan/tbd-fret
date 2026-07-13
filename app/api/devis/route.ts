@@ -5,6 +5,10 @@ const EMAIL_DESTINATION = process.env.EMAIL_DESTINATION ?? "tbd@tbd-fret.com";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    const { _hp, ...fields } = body;
+    if (_hp && _hp.trim() !== "") {
+      return NextResponse.json({ success: true });
+    }
     const {
       nom,
       entreprise,
@@ -17,7 +21,7 @@ export async function POST(req: NextRequest) {
       villeArrivee,
       dateChargement,
       message,
-    } = body;
+    } = fields;
 
     // Validation basique côté serveur
     if (!nom || !email || !entreprise || !villeDepart || !villeArrivee) {
