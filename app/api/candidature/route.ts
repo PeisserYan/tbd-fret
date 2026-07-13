@@ -6,7 +6,11 @@ const EMAIL_DESTINATION = process.env.EMAIL_DESTINATION ?? "tbd@tbd-fret.com";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { nom, email, telephone, poste, message } = body;
+    const { _hp, ...fields } = body;
+    if (_hp && _hp.trim() !== "") {
+      return NextResponse.json({ success: true }, { status: 200 });
+    }
+    const { nom, email, telephone, poste, message } = fields;
 
     if (!nom || !email || !poste) {
       return NextResponse.json(

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
@@ -34,6 +34,7 @@ export default function RecrutementPage() {
   const [form, setForm] = useState<FormData>(initialForm);
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [status, setStatus] = useState<Status>("idle");
+  const hpRef = useRef<HTMLInputElement>(null);
 
   function validate() {
     const newErrors: Partial<FormData> = {};
@@ -69,7 +70,7 @@ export default function RecrutementPage() {
       const res = await fetch("/api/candidature", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, _hp: hpRef.current?.value ?? "" }),
       });
       const data = await res.json();
       if (data.success) {
@@ -415,6 +416,15 @@ export default function RecrutementPage() {
                   style={inputStyle}
                 />
               </div>
+
+              <input
+                ref={hpRef}
+                type="text"
+                name="_hp"
+                style={{ position: "absolute", left: "-9999px", opacity: 0 }}
+                tabIndex={-1}
+                autoComplete="off"
+              />
 
               <button
                 type="submit"
