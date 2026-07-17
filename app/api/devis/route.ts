@@ -2,11 +2,84 @@ import { NextRequest, NextResponse } from "next/server";
 
 const EMAIL_DESTINATION = process.env.EMAIL_DESTINATION ?? "tbd@tbd-fret.com";
 
+// Domaines autorisés à soumettre le formulaire (protection anti-bypass API direct)
+const ALLOWED_HOSTS = ["tbd-fret.com", "www.tbd-fret.com"];
+
+// N'accepte que si Origin/Referer sont PRÉSENTS ET pointent vers un domaine différent.
+// Absence des deux en-têtes = toléré (proxy d'entreprise, extension vie privée, etc.), pas de rejet.
+function isSuspiciousOrigin(req: NextRequest): boolean {
+  const candidates = [req.headers.get("origin"), req.headers.get("referer")];
+  const present = candidates.filter((v): v is string => !!v);
+  if (present.length === 0) return false;
+
+  for (const value of present) {
+    try {
+      const host = new URL(value).hostname;
+      if (ALLOWED_HOSTS.includes(host)) return false;
+    } catch {
+      // valeur d'en-tête non parsable : on l'ignore, ne compte pas comme "match valide"
+    }
+  }
+  return true;
+}
+
+function logSilentReject(req: NextRequest, reason: string) {
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    req.headers.get("x-real-ip") ??
+    "inconnue";
+  console.warn(
+    JSON.stringify({
+      event: "contact_form_silent_reject",
+      route: "/api/devis",
+      reason,
+      timestamp: new Date().toISOString(),
+      ip,
+      originPresent: !!req.headers.get("origin"),
+      refererPresent: !!req.headers.get("referer"),
+    })
+  );
+}
+
+// Validation téléphone internationale générique : chiffres (6 à 14) avec + optionnel devant,
+// une fois espaces/tirets/points/parenthèses retirés. Couvre FR, IT, ES, etc.
+const PHONE_INTL_REGEX = /^\+?\d{6,14}$/;
+
+function isValidPhone(value: string): boolean {
+  if (typeof value !== "string") return false;
+  const stripped = value.replace(/[\s.\-()]/g, "");
+  return PHONE_INTL_REGEX.test(stripped);
+}
+
+function isValidDate(value: string): boolean {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return false;
+  }
+  const [year, month, day] = value.split("-").map(Number);
+  if (year < 1900 || year > 2100) return false;
+  const d = new Date(value);
+  return (
+    d.getUTCFullYear() === year &&
+    d.getUTCMonth() + 1 === month &&
+    d.getUTCDate() === day
+  );
+}
+
 export async function POST(req: NextRequest) {
   try {
+    // Bloque les POST dont Origin/Referer sont présents mais pointent vers un autre domaine
+    // (bypass du honeypot via appel API direct). Absence des en-têtes = toléré.
+    if (isSuspiciousOrigin(req)) {
+      logSilentReject(req, "origin_referer_mismatch");
+      return NextResponse.json({ success: true });
+    }
+
     const body = await req.json();
     const { _hp, ...fields } = body;
-    if (_hp && _hp.trim() !== "") {
+    // Honeypot : un champ censé rester vide pour un humain.
+    // S'il est rempli, on bloque immédiatement avant tout envoi (Brevo).
+    if (typeof _hp === "string" && _hp.trim() !== "") {
+      logSilentReject(req, "honeypot_filled");
       return NextResponse.json({ success: true });
     }
     const {
@@ -27,6 +100,43 @@ export async function POST(req: NextRequest) {
     if (!nom || !email || !entreprise || !villeDepart || !villeArrivee) {
       return NextResponse.json(
         { error: "Champs requis manquants" },
+        { status: 400 }
+      );
+    }
+
+    // Validation anti-spam complémentaire (défense en profondeur, ne remplace pas le honeypot)
+
+    // 1. Signature typique de bot : plusieurs champs texte libres identiques mot pour mot
+    const freeTextFields = [nom, entreprise, villeDepart, villeArrivee, message]
+      .filter((v): v is string => typeof v === "string" && v.trim() !== "");
+    const seen = new Set<string>();
+    let hasDuplicateFreeText = false;
+    for (const v of freeTextFields) {
+      const normalized = v.trim().toLowerCase();
+      if (seen.has(normalized)) {
+        hasDuplicateFreeText = true;
+        break;
+      }
+      seen.add(normalized);
+    }
+    if (hasDuplicateFreeText) {
+      // Comportement quasi certain de bot : on répond succès sans envoyer, comme pour le honeypot
+      logSilentReject(req, "duplicate_free_text_fields");
+      return NextResponse.json({ success: true });
+    }
+
+    // 2. Date de chargement invalide (format ou date impossible)
+    if (!isValidDate(dateChargement)) {
+      return NextResponse.json(
+        { error: "Date de chargement invalide" },
+        { status: 400 }
+      );
+    }
+
+    // 3. Téléphone à un format international plausible (FR, IT, ES, ...)
+    if (!isValidPhone(telephone)) {
+      return NextResponse.json(
+        { error: "Numéro de téléphone invalide" },
         { status: 400 }
       );
     }
