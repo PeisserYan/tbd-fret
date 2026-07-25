@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLang } from "@/lib/LangContext";
 import { translations } from "@/lib/translations";
@@ -22,14 +23,11 @@ export default function Navbar() {
   const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
-  const router = useRouter();
   const pathname = usePathname();
 
   function handleLogoClick() {
     if (pathname === "/") {
       window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      router.push("/");
     }
   }
 
@@ -65,24 +63,22 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo + brand name */}
             <div className="flex items-center shrink-0">
-              <button
+              <Link
+                href="/"
                 onClick={handleLogoClick}
-                className="flex items-center cursor-pointer"
+                className="flex items-center gap-3 cursor-pointer"
               >
-                <img
+                <Image
                   src="/logo-tbd.png"
                   alt="TBD Fret logo"
                   width={150}
                   height={150}
                   className="object-contain w-[150px] h-[150px]"
                 />
-              </button>
-              <button
-                onClick={handleLogoClick}
-                className="hidden lg:block text-white/80 hover:text-white text-sm font-medium transition-colors duration-200 cursor-pointer"
-              >
-                Transport Bogeat Daniel
-              </button>
+                <span className="hidden lg:block text-white/80 hover:text-white text-sm font-medium transition-colors duration-200">
+                  Transport Bogeat Daniel
+                </span>
+              </Link>
             </div>
 
             {/* Desktop nav */}

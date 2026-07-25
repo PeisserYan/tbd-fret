@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useLang } from "@/lib/LangContext";
 import { translations } from "@/lib/translations";
@@ -43,14 +44,17 @@ export default function HeroSection() {
       >
         <motion.div
           className="absolute inset-0"
-          initial={{ x: 300, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
+          initial={{ x: 300 }}
+          animate={{ x: 0 }}
           transition={{ duration: 1.2, delay: 0.4, ease }}
         >
-          <img
+          <Image
             src="/camion-tbd.jpg"
-            alt="Volvo FH 500 TBD Fret"
-            className="absolute inset-0 w-full h-full object-cover object-left-top"
+            alt="Camion Volvo FH 500 — TBD Fret, transporteur France-Italie"
+            fill
+            className="object-cover object-left-top"
+            priority
+            sizes="(max-width: 768px) 100vw, 50vw"
           />
           {/* Fondus sur les 4 bords */}
           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t  from-[#0D2E52] to-transparent" />
@@ -76,8 +80,13 @@ export default function HeroSection() {
             </span>
           </motion.div>
 
-          {/* H1 */}
-          <motion.h1
+          {/* H1 SEO (accessible, non visible) */}
+          <h1 className="sr-only">
+            Transporteur routier France-Italie | TBD Fret, Voglans (Savoie)
+          </h1>
+
+          {/* Titre visuel */}
+          <motion.p
             {...heroItem(0.35)}
             className="text-white leading-none mb-6"
             style={{
@@ -88,7 +97,7 @@ export default function HeroSection() {
           >
             {t.h1_line1}
             <br />{t.h1_line2}
-          </motion.h1>
+          </motion.p>
 
           {/* Sous-titre */}
           <motion.p

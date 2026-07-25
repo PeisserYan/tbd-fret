@@ -436,6 +436,17 @@ export default function FranceItalieContent() {
           </motion.div>
         </div>
       </section>
+
+      {/* ─── LIEN CROISÉ ─── */}
+      <div className="text-center py-12 bg-white">
+        <Link
+          href="/transport-turin"
+          className="text-sm font-semibold transition-colors hover:underline"
+          style={{ color: "var(--color-primary)" }}
+        >
+          → Voir aussi notre service Transport Savoie–Turin
+        </Link>
+      </div>
     </>
   );
 }

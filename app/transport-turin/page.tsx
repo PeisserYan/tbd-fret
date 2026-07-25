@@ -23,9 +23,32 @@ export const metadata: Metadata = {
   },
 };
 
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Accueil",
+      "item": "https://tbd-fret.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Transport Savoie-Turin",
+      "item": "https://tbd-fret.com/transport-turin"
+    }
+  ]
+};
+
 export default function TransportTurinPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <Navbar />
       <main>
         <TurinContent />

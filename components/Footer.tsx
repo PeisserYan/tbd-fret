@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useLang } from "@/lib/LangContext";
 import { translations } from "@/lib/translations";
 
@@ -21,7 +22,13 @@ export default function Footer() {
           {/* Logo + description */}
           <div>
             <Link href="/" className="inline-block mb-4">
-              <img src="/logo-tbd.png" alt="TBD Logo" style={{ height: "110px", width: "auto" }} />
+              <Image
+                src="/logo-tbd.png"
+                alt="TBD Logo"
+                width={800}
+                height={565}
+                style={{ height: "110px", width: "auto" }}
+              />
             </Link>
             <p className="text-white/60 text-sm leading-relaxed max-w-xs">
               {t.description}

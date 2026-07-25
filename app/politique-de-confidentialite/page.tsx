@@ -5,6 +5,9 @@ import Footer from "@/components/Footer";
 export const metadata = {
   title: "Politique de confidentialité — TBD Transports Bogeat Daniel",
   description: "Politique de confidentialité et traitement des données personnelles de TBD Transports Bogeat Daniel.",
+  alternates: {
+    canonical: "https://tbd-fret.com/politique-de-confidentialite",
+  },
 };
 
 export default function PolitiqueConfidentialitePage() {

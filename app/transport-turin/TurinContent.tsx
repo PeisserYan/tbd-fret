@@ -505,6 +505,17 @@ export default function TurinContent() {
           </motion.div>
         </div>
       </section>
+
+      {/* ─── LIEN CROISÉ ─── */}
+      <div className="text-center py-12 bg-white">
+        <Link
+          href="/france-italie"
+          className="text-sm font-semibold transition-colors hover:underline"
+          style={{ color: "var(--color-primary)" }}
+        >
+          → Voir aussi notre service Transport France-Italie
+        </Link>
+      </div>
     </>
   );
 }

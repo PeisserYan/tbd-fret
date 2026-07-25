@@ -5,6 +5,9 @@ import Footer from "@/components/Footer";
 export const metadata = {
   title: "Mentions légales — TBD Transports Bogeat Daniel",
   description: "Mentions légales de TBD Transports Bogeat Daniel, entreprise de transport routier de fret.",
+  alternates: {
+    canonical: "https://tbd-fret.com/mentions-legales",
+  },
 };
 
 export default function MentionsLegalesPage() {
