@@ -30,7 +30,7 @@ export default function Footer() {
                 style={{ height: "110px", width: "auto" }}
               />
             </Link>
-            <p className="text-white/60 text-sm leading-relaxed max-w-xs">
+            <p className="text-white/75 text-sm leading-relaxed max-w-xs">
               {t.description}
             </p>
           </div>
@@ -76,7 +76,7 @@ export default function Footer() {
             </p>
             <ul className="flex flex-col gap-2">
               <li>
-                <span className="text-white/60 text-sm">
+                <span className="text-white/75 text-sm">
                   SIRET : 320 029 887 00041
                 </span>
               </li>
@@ -85,7 +85,7 @@ export default function Footer() {
                   href="https://www.google.com/maps/place/TBD+Transports+Bogeat+Daniel/@45.6236458,5.8929696,16z"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white/60 hover:text-white/85 text-sm transition-colors duration-200"
+                  className="text-white/75 hover:text-white/85 text-sm transition-colors duration-200"
                 >
                   241 rue des Bouvards, 73420 Voglans
                 </a>
@@ -114,20 +114,20 @@ export default function Footer() {
           className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4"
           style={{ borderColor: "rgba(255,255,255,0.08)" }}
         >
-          <p className="text-white/50 text-xs">
+          <p className="text-white/70 text-xs">
             {t.copyright}
           </p>
           <div className="flex items-center gap-4">
             <Link
               href="/mentions-legales"
-              className="text-white/50 hover:text-white/75 text-xs transition-colors duration-200"
+              className="text-white/70 hover:text-white/85 text-xs transition-colors duration-200"
             >
               {t.mentions}
             </Link>
-            <span className="text-white/40 text-xs">·</span>
+            <span className="text-white/70 text-xs">·</span>
             <Link
               href="/politique-de-confidentialite"
-              className="text-white/50 hover:text-white/75 text-xs transition-colors duration-200"
+              className="text-white/70 hover:text-white/85 text-xs transition-colors duration-200"
             >
               {t.confidentialite}
             </Link>

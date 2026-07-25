@@ -337,7 +337,7 @@ export default function FranceItalieContent() {
                 <span key={i}>{line}{i === 0 && <br />}</span>
               ))}
             </h2>
-            <p className="text-white/60 text-lg max-w-2xl mx-auto">
+            <p className="text-white/75 text-lg max-w-2xl mx-auto">
               {t.pourquoi_subtitle}
             </p>
           </motion.div>
@@ -369,7 +369,7 @@ export default function FranceItalieContent() {
                 >
                   {a.titre}
                 </h3>
-                <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
+                <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.75)" }}>
                   {a.detail}
                 </p>
               </motion.div>
@@ -430,7 +430,7 @@ export default function FranceItalieContent() {
               </a>
             </div>
 
-            <p className="mt-8 text-white/40 text-sm">
+            <p className="mt-8 text-white/70 text-sm">
               {t.cta_horaires}
             </p>
           </motion.div>

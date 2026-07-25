@@ -61,7 +61,7 @@ function CapaciteCard({
       >
         {active ? value : "—"}
       </div>
-      <div className="text-white/60 text-sm font-medium uppercase tracking-wide">
+      <div className="text-white/75 text-sm font-medium uppercase tracking-wide">
         {label}
       </div>
       <AnimatePresence>
@@ -152,7 +152,7 @@ export default function PrestationsSection() {
           >
             {t.titre}
           </h2>
-          <p className="text-white/60 text-lg max-w-2xl mx-auto">
+          <p className="text-white/75 text-lg max-w-2xl mx-auto">
             {t.sous_titre}
           </p>
         </motion.div>
@@ -222,7 +222,7 @@ export default function PrestationsSection() {
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">🇫🇷</span>
                 <span className="text-white font-semibold">{t.france_label}</span>
-                <span className="text-white/40 text-sm">{t.france_sub}</span>
+                <span className="text-white/70 text-sm">{t.france_sub}</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {franceVilles.map((v) => (
@@ -239,7 +239,7 @@ export default function PrestationsSection() {
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">🇮🇹</span>
                 <span className="text-white font-semibold">{t.italie_label}</span>
-                <span className="text-white/40 text-sm">{t.italie_sub}</span>
+                <span className="text-white/70 text-sm">{t.italie_sub}</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {italieVilles.map((v) => (

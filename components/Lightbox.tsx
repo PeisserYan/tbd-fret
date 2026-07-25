@@ -123,7 +123,7 @@ export default function Lightbox({ images, initialIndex, onClose }: LightboxProp
       </button>
 
       {/* Compteur */}
-      <div className="absolute top-5 left-1/2 -translate-x-1/2 z-20 text-white/50 text-sm tabular-nums">
+      <div className="absolute top-5 left-1/2 -translate-x-1/2 z-20 text-white/70 text-sm tabular-nums">
         {current + 1} / {images.length}
       </div>
 

@@ -44,7 +44,7 @@ export default function EngagementSection() {
             >
               {t.sous_titre}
             </div>
-            <p className="text-white/60 text-base leading-relaxed">
+            <p className="text-white/75 text-base leading-relaxed">
               {t.description}
             </p>
           </motion.div>

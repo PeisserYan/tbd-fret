@@ -227,8 +227,9 @@ export default function DevisSection() {
           noValidate
         >
           {/* Bloc 1 */}
-          <div>
+          <div role="group" aria-labelledby="devis-bloc1-heading">
             <h3
+              id="devis-bloc1-heading"
               className="text-lg mb-5 pb-3 border-b"
               style={{
                 fontFamily: "var(--font-bebas-neue)",
@@ -266,8 +267,9 @@ export default function DevisSection() {
           </div>
 
           {/* Bloc 2 */}
-          <div>
+          <div role="group" aria-labelledby="devis-bloc2-heading">
             <h3
+              id="devis-bloc2-heading"
               className="text-lg mb-5 pb-3 border-b"
               style={{
                 fontFamily: "var(--font-bebas-neue)",
@@ -335,8 +337,9 @@ export default function DevisSection() {
           </div>
 
           {/* Bloc 3 */}
-          <div>
+          <div role="group" aria-labelledby="devis-bloc3-heading">
             <h3
+              id="devis-bloc3-heading"
               className="text-lg mb-5 pb-3 border-b"
               style={{
                 fontFamily: "var(--font-bebas-neue)",
@@ -377,6 +380,7 @@ export default function DevisSection() {
               style={{ position: "absolute", left: "-9999px", opacity: 0 }}
               tabIndex={-1}
               autoComplete="off"
+              aria-hidden="true"
             />
             <button
               type="submit"

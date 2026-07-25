@@ -290,7 +290,7 @@ export default function RecrutementClient() {
               >
                 {t.candidature_titre}
               </h2>
-              <p className="text-white/60">
+              <p className="text-white/75">
                 {t.candidature_subtitle}
               </p>
             </motion.div>
@@ -424,6 +424,7 @@ export default function RecrutementClient() {
                 style={{ position: "absolute", left: "-9999px", opacity: 0 }}
                 tabIndex={-1}
                 autoComplete="off"
+                aria-hidden="true"
               />
 
               <button
@@ -460,7 +461,7 @@ export default function RecrutementClient() {
             >
               <Link
                 href="/"
-                className="text-white/50 hover:text-white text-sm transition-colors"
+                className="text-white/70 hover:text-white text-sm transition-colors"
               >
                 {t.retour}
               </Link>

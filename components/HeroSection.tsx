@@ -37,31 +37,25 @@ export default function HeroSection() {
         }}
       />
 
-      {/* Camion — démarre exactement à 50%, z-0 */}
+      {/* Camion — démarre exactement à 50%, z-0 — wrapper parallaxe conservé, animation d'entrée supprimée (LCP) */}
       <motion.div
         className="absolute right-0 top-0 w-1/2 h-full z-0 pointer-events-none"
         style={{ x: truckX }}
+        aria-hidden="true"
       >
-        <motion.div
-          className="absolute inset-0"
-          initial={{ x: 300 }}
-          animate={{ x: 0 }}
-          transition={{ duration: 1.2, delay: 0.4, ease }}
-        >
-          <Image
-            src="/camion-tbd.jpg"
-            alt="Camion Volvo FH 500 — TBD Fret, transporteur France-Italie"
-            fill
-            className="object-cover object-left-top"
-            priority
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-          {/* Fondus sur les 4 bords */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t  from-[#0D2E52] to-transparent" />
-          <div className="absolute top-0    left-0 right-0 h-32 bg-gradient-to-b  from-[#0D2E52] to-transparent" />
-          <div className="absolute left-0  top-0 bottom-0 w-24 bg-gradient-to-r  from-[#0D2E52] to-transparent" />
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l  from-[#0D2E52] to-transparent" />
-        </motion.div>
+        <Image
+          src="/camion-tbd.jpg"
+          alt="Camion Volvo FH 500 — TBD Fret, transporteur France-Italie"
+          fill
+          className="object-cover object-left-top"
+          priority
+          sizes="(max-width: 768px) 100vw, 50vw"
+        />
+        {/* Fondus sur les 4 bords */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t  from-[#0D2E52] to-transparent" />
+        <div className="absolute top-0    left-0 right-0 h-32 bg-gradient-to-b  from-[#0D2E52] to-transparent" />
+        <div className="absolute left-0  top-0 bottom-0 w-24 bg-gradient-to-r  from-[#0D2E52] to-transparent" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l  from-[#0D2E52] to-transparent" />
       </motion.div>
 
       {/* Texte — centré dans la moitié gauche */}

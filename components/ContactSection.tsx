@@ -115,7 +115,7 @@ export default function ContactSection() {
               className="p-5 rounded-lg border border-white/10"
               style={{ backgroundColor: "rgba(255,255,255,0.04)" }}
             >
-              <p className="text-white/50 text-xs font-semibold uppercase tracking-widest mb-2">
+              <p className="text-white/70 text-xs font-semibold uppercase tracking-widest mb-2">
                 {t.horaires_titre}
               </p>
               <p className="text-white/80 text-sm">

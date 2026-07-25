@@ -20,7 +20,7 @@ export default function NotFound() {
           <h1 className="text-3xl mb-4" style={{ fontFamily: "var(--font-bebas-neue)" }}>
             Page introuvable
           </h1>
-          <p className="text-white/60 mb-8 max-w-md mx-auto">
+          <p className="text-white/75 mb-8 max-w-md mx-auto">
             Cette page n&apos;existe pas ou a été déplacée.
           </p>
           <Link
