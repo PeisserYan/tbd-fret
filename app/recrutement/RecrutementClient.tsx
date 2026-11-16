@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { fadeInUp, staggerContainer } from "@/lib/variants";
 import { useLang } from "@/lib/LangContext";
 import { translations } from "@/lib/translations";
+import { isValidPhone } from "@/lib/form-guard";
 
 type FormData = {
   nom: string;
@@ -42,6 +43,8 @@ export default function RecrutementClient() {
     if (!form.email.trim()) newErrors.email = t.requis;
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
       newErrors.email = t.email_invalide;
+    if (form.telephone.trim() && !isValidPhone(form.telephone))
+      newErrors.telephone = t.tel_invalide;
     if (!form.poste) newErrors.poste = t.poste_requis;
     return newErrors;
   }
@@ -345,6 +348,9 @@ export default function RecrutementClient() {
                     className={inputClass}
                     style={inputStyle}
                   />
+                  {errors.telephone && (
+                    <p className="mt-1 text-xs text-red-500">{errors.telephone}</p>
+                  )}
                 </div>
               </div>
 

@@ -106,6 +106,7 @@ export const translations = {
       erreur: "Une erreur est survenue. Appelez-nous au",
       requis: "Ce champ est requis",
       email_invalide: "Email invalide",
+      tel_invalide: "Numéro de téléphone invalide",
     },
     contact: {
       titre: "NOUS CONTACTER",
@@ -172,6 +173,7 @@ export const translations = {
       requis: "Ce champ est requis",
       poste_requis: "Veuillez choisir un poste",
       email_invalide: "Email invalide",
+      tel_invalide: "Numéro de téléphone invalide",
       retour: "← Retour à l'accueil",
     },
     france_italie: {
@@ -370,6 +372,7 @@ export const translations = {
       erreur: "Si è verificato un errore. Chiamateci al",
       requis: "Questo campo è obbligatorio",
       email_invalide: "Email non valida",
+      tel_invalide: "Numero di telefono non valido",
     },
     contact: {
       titre: "CONTATTACI",
@@ -436,6 +439,7 @@ export const translations = {
       requis: "Questo campo è obbligatorio",
       poste_requis: "Seleziona una posizione",
       email_invalide: "Email non valida",
+      tel_invalide: "Numero di telefono non valido",
       retour: "← Torna alla home",
     },
     france_italie: {

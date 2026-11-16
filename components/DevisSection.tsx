@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { fadeInUp } from "@/lib/variants";
 import { useLang } from "@/lib/LangContext";
 import { translations } from "@/lib/translations";
+import { isValidPhone } from "@/lib/form-guard";
 
 type FormData = {
   nom: string;
@@ -127,6 +128,9 @@ export default function DevisSection() {
     }
     if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       newErrors.email = t.email_invalide;
+    }
+    if (form.telephone.trim() && !isValidPhone(form.telephone)) {
+      newErrors.telephone = t.tel_invalide;
     }
     return newErrors;
   }

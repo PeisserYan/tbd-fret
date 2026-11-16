@@ -1,55 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
+import {
+  escapeHtml,
+  hasDuplicateFreeText,
+  isHoneypotFilled,
+  isSuspiciousOrigin,
+  isValidEmail,
+  isValidPhone,
+  logSilentReject,
+  subjectSafe,
+} from "@/lib/form-guard";
 
 const EMAIL_DESTINATION = process.env.EMAIL_DESTINATION ?? "tbd@tbd-fret.com";
-
-// Domaines autorisés à soumettre le formulaire (protection anti-bypass API direct)
-const ALLOWED_HOSTS = ["tbd-fret.com", "www.tbd-fret.com"];
-
-// N'accepte que si Origin/Referer sont PRÉSENTS ET pointent vers un domaine différent.
-// Absence des deux en-têtes = toléré (proxy d'entreprise, extension vie privée, etc.), pas de rejet.
-function isSuspiciousOrigin(req: NextRequest): boolean {
-  const candidates = [req.headers.get("origin"), req.headers.get("referer")];
-  const present = candidates.filter((v): v is string => !!v);
-  if (present.length === 0) return false;
-
-  for (const value of present) {
-    try {
-      const host = new URL(value).hostname;
-      if (ALLOWED_HOSTS.includes(host)) return false;
-    } catch {
-      // valeur d'en-tête non parsable : on l'ignore, ne compte pas comme "match valide"
-    }
-  }
-  return true;
-}
-
-function logSilentReject(req: NextRequest, reason: string) {
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    req.headers.get("x-real-ip") ??
-    "inconnue";
-  console.warn(
-    JSON.stringify({
-      event: "contact_form_silent_reject",
-      route: "/api/devis",
-      reason,
-      timestamp: new Date().toISOString(),
-      ip,
-      originPresent: !!req.headers.get("origin"),
-      refererPresent: !!req.headers.get("referer"),
-    })
-  );
-}
-
-// Validation téléphone internationale générique : chiffres (6 à 14) avec + optionnel devant,
-// une fois espaces/tirets/points/parenthèses retirés. Couvre FR, IT, ES, etc.
-const PHONE_INTL_REGEX = /^\+?\d{6,14}$/;
-
-function isValidPhone(value: string): boolean {
-  if (typeof value !== "string") return false;
-  const stripped = value.replace(/[\s.\-()]/g, "");
-  return PHONE_INTL_REGEX.test(stripped);
-}
+// Expéditeur : doit être une adresse d'un domaine authentifié dans Brevo (DKIM/DMARC tbd-fret.com)
+const EMAIL_SENDER = process.env.EMAIL_SENDER_DEVIS ?? "devis@tbd-fret.com";
 
 function isValidDate(value: string): boolean {
   if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
@@ -70,7 +33,7 @@ export async function POST(req: NextRequest) {
     // Bloque les POST dont Origin/Referer sont présents mais pointent vers un autre domaine
     // (bypass du honeypot via appel API direct). Absence des en-têtes = toléré.
     if (isSuspiciousOrigin(req)) {
-      logSilentReject(req, "origin_referer_mismatch");
+      logSilentReject(req, "/api/devis", "origin_referer_mismatch");
       return NextResponse.json({ success: true });
     }
 
@@ -78,8 +41,8 @@ export async function POST(req: NextRequest) {
     const { _hp, ...fields } = body;
     // Honeypot : un champ censé rester vide pour un humain.
     // S'il est rempli, on bloque immédiatement avant tout envoi (Brevo).
-    if (typeof _hp === "string" && _hp.trim() !== "") {
-      logSilentReject(req, "honeypot_filled");
+    if (isHoneypotFilled(_hp)) {
+      logSilentReject(req, "/api/devis", "honeypot_filled");
       return NextResponse.json({ success: true });
     }
     const {
@@ -104,24 +67,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    if (!isValidEmail(email)) {
+      return NextResponse.json({ error: "Email invalide" }, { status: 400 });
+    }
+
     // Validation anti-spam complémentaire (défense en profondeur, ne remplace pas le honeypot)
 
     // 1. Signature typique de bot : plusieurs champs texte libres identiques mot pour mot
-    const freeTextFields = [nom, entreprise, villeDepart, villeArrivee, message]
-      .filter((v): v is string => typeof v === "string" && v.trim() !== "");
-    const seen = new Set<string>();
-    let hasDuplicateFreeText = false;
-    for (const v of freeTextFields) {
-      const normalized = v.trim().toLowerCase();
-      if (seen.has(normalized)) {
-        hasDuplicateFreeText = true;
-        break;
-      }
-      seen.add(normalized);
-    }
-    if (hasDuplicateFreeText) {
+    if (hasDuplicateFreeText([nom, entreprise, villeDepart, villeArrivee, message])) {
       // Comportement quasi certain de bot : on répond succès sans envoyer, comme pour le honeypot
-      logSilentReject(req, "duplicate_free_text_fields");
+      logSilentReject(req, "/api/devis", "duplicate_free_text_fields");
       return NextResponse.json({ success: true });
     }
 
@@ -141,6 +96,21 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Toutes les valeurs saisies sont échappées avant insertion dans le HTML du mail
+    const e = {
+      nom: escapeHtml(nom),
+      entreprise: escapeHtml(entreprise),
+      email: escapeHtml(email),
+      telephone: escapeHtml(telephone),
+      typeMarchandise: escapeHtml(typeMarchandise),
+      poids: escapeHtml(poids),
+      palettes: escapeHtml(palettes),
+      villeDepart: escapeHtml(villeDepart),
+      villeArrivee: escapeHtml(villeArrivee),
+      dateChargement: escapeHtml(dateChargement),
+      message: escapeHtml(message),
+    };
+
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background: #0D2E52; padding: 24px; border-radius: 8px 8px 0 0;">
@@ -152,22 +122,22 @@ export async function POST(req: NextRequest) {
             Contact
           </h2>
           <table style="width: 100%; border-collapse: collapse;">
-            <tr><td style="padding: 6px 0; color: #5A6A7A; width: 40%; font-size: 14px;">Nom et prénom</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${nom}</td></tr>
-            <tr><td style="padding: 6px 0; color: #5A6A7A; font-size: 14px;">Entreprise</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${entreprise}</td></tr>
-            <tr><td style="padding: 6px 0; color: #5A6A7A; font-size: 14px;">Email</td><td style="padding: 6px 0; color: #1B4F8A; font-size: 14px;"><a href="mailto:${email}">${email}</a></td></tr>
-            <tr><td style="padding: 6px 0; color: #5A6A7A; font-size: 14px;">Téléphone</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${telephone}</td></tr>
+            <tr><td style="padding: 6px 0; color: #5A6A7A; width: 40%; font-size: 14px;">Nom et prénom</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${e.nom}</td></tr>
+            <tr><td style="padding: 6px 0; color: #5A6A7A; font-size: 14px;">Entreprise</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${e.entreprise}</td></tr>
+            <tr><td style="padding: 6px 0; color: #5A6A7A; font-size: 14px;">Email</td><td style="padding: 6px 0; color: #1B4F8A; font-size: 14px;"><a href="mailto:${e.email}">${e.email}</a></td></tr>
+            <tr><td style="padding: 6px 0; color: #5A6A7A; font-size: 14px;">Téléphone</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${e.telephone}</td></tr>
           </table>
 
           <h2 style="color: #1B4F8A; font-size: 16px; margin: 24px 0 16px 0; border-bottom: 1px solid #D0DCE8; padding-bottom: 8px;">
             Expédition
           </h2>
           <table style="width: 100%; border-collapse: collapse;">
-            <tr><td style="padding: 6px 0; color: #5A6A7A; width: 40%; font-size: 14px;">Type de marchandise</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${typeMarchandise}</td></tr>
-            <tr><td style="padding: 6px 0; color: #5A6A7A; font-size: 14px;">Poids estimé</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${poids}</td></tr>
-            <tr><td style="padding: 6px 0; color: #5A6A7A; font-size: 14px;">Palettes</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${palettes}</td></tr>
-            <tr><td style="padding: 6px 0; color: #5A6A7A; font-size: 14px;">Départ</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${villeDepart}</td></tr>
-            <tr><td style="padding: 6px 0; color: #5A6A7A; font-size: 14px;">Arrivée (Italie)</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${villeArrivee}</td></tr>
-            <tr><td style="padding: 6px 0; color: #5A6A7A; font-size: 14px;">Date souhaitée</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${dateChargement}</td></tr>
+            <tr><td style="padding: 6px 0; color: #5A6A7A; width: 40%; font-size: 14px;">Type de marchandise</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${e.typeMarchandise}</td></tr>
+            <tr><td style="padding: 6px 0; color: #5A6A7A; font-size: 14px;">Poids estimé</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${e.poids}</td></tr>
+            <tr><td style="padding: 6px 0; color: #5A6A7A; font-size: 14px;">Palettes</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${e.palettes}</td></tr>
+            <tr><td style="padding: 6px 0; color: #5A6A7A; font-size: 14px;">Départ</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${e.villeDepart}</td></tr>
+            <tr><td style="padding: 6px 0; color: #5A6A7A; font-size: 14px;">Arrivée (Italie)</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${e.villeArrivee}</td></tr>
+            <tr><td style="padding: 6px 0; color: #5A6A7A; font-size: 14px;">Date souhaitée</td><td style="padding: 6px 0; color: #0D1B2A; font-weight: 600; font-size: 14px;">${e.dateChargement}</td></tr>
           </table>
 
           ${
@@ -176,14 +146,14 @@ export async function POST(req: NextRequest) {
           <h2 style="color: #1B4F8A; font-size: 16px; margin: 24px 0 16px 0; border-bottom: 1px solid #D0DCE8; padding-bottom: 8px;">
             Précisions
           </h2>
-          <p style="color: #0D1B2A; font-size: 14px; line-height: 1.6; background: white; padding: 12px; border-radius: 4px; border: 1px solid #D0DCE8;">${message}</p>
+          <p style="color: #0D1B2A; font-size: 14px; line-height: 1.6; background: white; padding: 12px; border-radius: 4px; border: 1px solid #D0DCE8;">${e.message}</p>
           `
               : ""
           }
 
           <div style="margin-top: 32px; padding: 16px; background: white; border-radius: 4px; border: 1px solid #D0DCE8;">
             <p style="color: #5A6A7A; font-size: 12px; margin: 0;">
-              Répondre directement à <a href="mailto:${email}" style="color: #1B4F8A;">${email}</a>
+              Répondre directement à <a href="mailto:${e.email}" style="color: #1B4F8A;">${e.email}</a>
             </p>
           </div>
         </div>
@@ -197,10 +167,10 @@ export async function POST(req: NextRequest) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        sender: { email: "yan@compagnondigital.fr", name: "TBD Fret" },
+        sender: { email: EMAIL_SENDER, name: "TBD Fret" },
         to: [{ email: EMAIL_DESTINATION }],
         replyTo: { email: email },
-        subject: `Demande de devis — ${entreprise} (${villeDepart} → ${villeArrivee})`,
+        subject: `Demande de devis — ${subjectSafe(entreprise)} (${subjectSafe(villeDepart, 40)} → ${subjectSafe(villeArrivee, 40)})`,
         htmlContent: html,
       }),
     });
